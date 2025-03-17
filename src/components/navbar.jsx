@@ -7,12 +7,21 @@ function NavEg() {
     <>
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href>Blossom Bliss</Navbar.Brand>
+          {/* <Navbar.Brand href>Flower Shop</Navbar.Brand> */}
           <Nav className="me-auto">
-            <Nav.Link href="/home">Home</Nav.Link>
-            <Nav.Link href="/shop">Shop</Nav.Link>
-            <Nav.Link href="/about">About</Nav.Link>
-            <Nav.Link href="/contact">Contact</Nav.Link>
+            <Nav.Link href="/home" style={{
+              margin: '0 15px', color: '#eee',
+            }}>Home</Nav.Link>
+            <Nav.Link href="/shop" style={{
+              margin: '0 15px', color: '#eee',
+            }}>Shop</Nav.Link>
+            <Nav.Link href="/about" style={{
+              margin: '0 15px', color: '#eee',
+            }}>About</Nav.Link>
+            <Nav.Link href="/contact" style={{
+              margin: '0 15px', color: '#eee',
+            }}>Contact</Nav.Link>
+
 
           </Nav>
         </Container>

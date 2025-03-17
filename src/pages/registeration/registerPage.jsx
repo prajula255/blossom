@@ -56,7 +56,7 @@ const RegisterPage = () => {
                 }}
             ></div>
 
-            <Container style={{ position: "relative"}}>
+            <Container style={{ position: "relative" }}>
                 <Row className="justify-content-center">
                     <Col md={5} sm={8}>
                         <div className="p-4 bg-white shadow-lg rounded-3 text-center">
@@ -120,7 +120,7 @@ const RegisterPage = () => {
                             </Form>
 
                             <p className="text-center mt-3 text-dark">
-                                Already have an account? <a href="/login" style={{ color: "#007bff", fontWeight: "bold" }}>Login</a>
+                                Already have an account? <a href="/" style={{ color: "#007bff", fontWeight: "bold" }}>Login</a>
                             </p>
                         </div>
                     </Col>

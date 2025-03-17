@@ -6,24 +6,62 @@ import FooterEg from "../../components/footer";
 function HomePage() {
     return (
         <>
-            <div className="relative min-h-screen bg-cover bg-center text-white" style={{ backgroundImage: `url('/home.jpg')` }}>
-                <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-                <div className="absolute top-0 left-0 w-full">
+            <div style={{
+                width: '100vw',
+                height: '100vh',
+                backgroundImage: `url('/home.jpg')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                position: 'relative',
+                color: 'white'
+            }}>
+                <div style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)'
+                }}></div>
+
+                {/* Navbar */}
+                <div style={{ position: 'absolute', top: 0, left: 0, width: '100%' }}>
                     <NavEg />
                 </div>
 
-                <div className="relative flex flex-col items-center justify-center h-full text-center px-6">
-                    <h3 className=" text-gray-300">
-                        Welcome to Blossom Bliss
-                    </h3>
-                    <h1 className="font-bold leading-tight my-4">
-                        Fresh Flowers Delivered to Your Doorstep <br />
+                {/* Hero Content */}
+                <div style={{
+                    position: 'relative',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '100%',
+                    textAlign: 'center',
+                    padding: '0 20px'
+                }}>
+                    <h3 style={{ color: '#ddd' }}>Welcome to Blossom Bliss</h3>
+                    <h1 style={{ fontWeight: 'bold', margin: '10px 0' }}>
+                        Fresh Flowers Delivered to Your Doorstep
                     </h1>
-                    <p className="text-lg text-gray-200 mb-6 max-w-2xl">
+                    <p style={{
+                        fontSize: '18px',
+                        color: '#eee',
+                        maxWidth: '600px',
+                        marginBottom: '20px'
+                    }}>
                         Explore a vibrant tapestry of blooms and arrangements that add color,
                         fragrance, and elegance to your life. Discover the perfect floral expression for every moment and occasion.
                     </p>
-                    <Button className="bg-pink-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-pink-700">
+                    <Button style={{
+                        backgroundColor: '#e91e63',
+                        color: 'white',
+                        padding: '10px 20px',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px rgba(0,0,0,0.2)',
+                        border: 'none'
+                    }}>
                         Shop Now
                     </Button>
                 </div>
