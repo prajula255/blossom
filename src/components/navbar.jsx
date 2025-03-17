@@ -5,9 +5,9 @@ import Navbar from 'react-bootstrap/Navbar';
 function NavEg() {
   return (
     <>
-      <Navbar bg="dark" data-bs-theme="dark">
+      <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">Blossom Bliss</Navbar.Brand>
+          <Navbar.Brand href>Blossom Bliss</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="/home">Home</Nav.Link>
             <Nav.Link href="/shop">Shop</Nav.Link>

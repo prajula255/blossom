@@ -53,11 +53,10 @@ const RegisterPage = () => {
                     width: "100%",
                     height: "100%",
                     backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent overlay
-                    zIndex: 1,
                 }}
             ></div>
 
-            <Container style={{ position: "relative", zIndex: 2 }}>
+            <Container style={{ position: "relative"}}>
                 <Row className="justify-content-center">
                     <Col md={5} sm={8}>
                         <div className="p-4 bg-white shadow-lg rounded-3 text-center">

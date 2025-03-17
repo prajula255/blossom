@@ -3,7 +3,17 @@ import React from "react";
 function FooterEg() {
     return (
         <>
-            <footer style={{ backgroundColor: '#f8f9fa', color: '#343a40', padding: '40px 20px', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
+<footer style={{ 
+    backgroundColor: '#f8f9fa', 
+    color: '#343a40', 
+    padding: '40px 20px', 
+    display: 'flex', 
+    flexWrap: 'wrap', 
+    justifyContent: 'space-evenly', 
+    width: '100vw', 
+    boxSizing: 'border-box',
+    margin: '0'
+}}>
                 <div style={{ margin: '5px 0', flex: '1 1 200px', minWidth: '200px' }}>
                     <h3 style={{ fontWeight: 'bold', marginBottom: '15px', fontFamily: "serif" }}>Blossom Bliss</h3>
                     <p >
@@ -26,6 +36,7 @@ function FooterEg() {
                     <p >Email: contact@info.com</p>
                     <p>Phone: +91 987 654 321</p>
                 </div>
+
             </footer>
         </>
     );
