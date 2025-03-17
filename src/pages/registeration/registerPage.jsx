@@ -74,7 +74,7 @@ const RegisterPage = () => {
                                             value={userCredentials.RegName}
                                             onChange={handleInputChange}
                                             required
-                                            style={{ borderRadius: "125px", padding: "10px" }}
+                                            style={{ borderRadius: "8px", padding: "10px" }}
                                         />
                                     </Col>
                                 </Form.Group>
@@ -91,7 +91,7 @@ const RegisterPage = () => {
                                             value={userCredentials.RegEmail}
                                             onChange={handleInputChange}
                                             required
-                                            style={{ borderRadius: "125px", padding: "10px" }}
+                                            style={{ borderRadius: "8px", padding: "10px" }}
 
                                         />
                                     </Col>
@@ -109,7 +109,7 @@ const RegisterPage = () => {
                                             value={userCredentials.RegPassword}
                                             onChange={handleInputChange}
                                             required
-                                            style={{ borderRadius: "125px", padding: "10px" }}
+                                            style={{ borderRadius: "8px", padding: "10px" }}
                                         />
                                     </Col>
                                 </Form.Group>
