@@ -1,0 +1,115 @@
+/* General Page Styling */
+.login-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("/login.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Dark Overlay for Readability */
+.login-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Login Box */
+.login-container {
+    position: relative;
+}
+
+.login-box {
+    background-color: rgba(249, 251, 251, 0.23);
+    /* backdrop-filter: blur(5px); */
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Login Heading */
+.login-box h2 {
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #222;
+}
+
+/* Form Styling */
+.login-form {
+    text-align: left;
+    padding-right: 20px;
+}
+
+/* Form Label */
+.login-form .form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.login-form .form-label {
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 5px;
+}
+
+/* Input Fields */
+.login-form .form-control {
+    width: 100%;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+}
+
+/* Login Button */
+.login-btn {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out;
+}
+
+.login-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Register Link */
+.register-link {
+    margin-top: 15px;
+    color: #000;
+}
+
+.register-link a {
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-box {
+        width: 90%;
+        padding: 20px;
+    }
+}
