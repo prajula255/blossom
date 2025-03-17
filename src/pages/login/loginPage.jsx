@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { Container, Form, Row, Col, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
     const [userCredentials, setUserCredentials] = useState({
         loginEmail: "",
         loginPassword: "",
     });
+
+    const navigate = useNavigate();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -25,6 +28,8 @@ const LoginPage = () => {
 
         alert("Login successful!");
         console.log("Logged in with:", userCredentials);
+
+        navigate("/home");
     };
 
     return (
@@ -45,7 +50,6 @@ const LoginPage = () => {
                 color: "white",
             }}
         >
-            {/* Dark overlay for better readability */}
             <div
                 style={{
                     position: "absolute",
@@ -53,16 +57,15 @@ const LoginPage = () => {
                     left: 0,
                     width: "100%",
                     height: "100%",
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                    zIndex: 1,
+                    backgroundColor: "rgba(0, 0, 0, 0.5)"
                 }}
             ></div>
 
-            <Container style={{ position: "relative", zIndex: 2 }}>
+            <Container style={{ position: "relative" }}>
                 <Row className="justify-content-center">
                     <Col md={5} sm={8}>
                         <div
-                            className="p-4  rounded-3 text-center"
+                            className="p-4 rounded-3 text-center"
                             style={{
                                 backgroundColor: "rgba(249, 251, 251, 0.23)",
                                 backdropFilter: "blur(5px)",
@@ -98,7 +101,7 @@ const LoginPage = () => {
                                     />
                                 </Form.Group>
 
-                                <Button variant="primary" type="submit" className="w-100 py-2" style={{ borderRadius: "8px", color: "#007bff" }}>
+                                <Button variant="primary" type="submit" className="w-100 py-2" style={{ borderRadius: "8px" }}>
                                     Login
                                 </Button>
                             </Form>
