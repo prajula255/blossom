@@ -17,7 +17,7 @@ function AboutPage() {
                 justifyContent: "center",
                 textAlign: "center",
                 color: "#fff",
-                padding: "40px",
+                padding: "40px"
             }}>
 
                 {/* <div style={{ position: 'absolute', top: 0, left: 0, width: '100%' }}><NavEg /></div> */}
