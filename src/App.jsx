@@ -4,12 +4,12 @@ import './App.css'
 import RegisterPage from './pages/registeration/registerPage'
 import LoginPage from './pages/login/loginPage'
 import HomePage from './pages/home/homePage'
-import ContactPage from './pages/contactPage'
 import FlowersList from './pages/product/flowerList'
 import AboutPage from './pages/about/aboutPage'
 import CartPage from './pages/cart/cart'
 import CheckoutPage from './pages/cart/checkOut'
 import NavEg from './components/navbar'
+import ContactPage from './pages/contact/contactPage'
 
 function App() {
 

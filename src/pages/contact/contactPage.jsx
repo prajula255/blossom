@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import FooterEg from "../components/footer";
-import NavEg from "../components/navbar";
+import FooterEg from "../../components/footer";
+import NavEg from "../../components/navbar";
 
 function ContactPage() {
     const [formData, setFormData] = useState({ name: "", email: "", message: "" });
