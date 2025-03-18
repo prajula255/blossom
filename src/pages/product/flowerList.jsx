@@ -1,27 +1,51 @@
+import { useNavigate } from "react-router-dom";
 import FooterEg from "../../components/footer";
 import NavEg from "../../components/navbar";
+import { useState, useEffect } from "react";
+import { Button } from "react-bootstrap";
 
 function FlowersList() {
+    const navigate = useNavigate();
+    const [cart, setCart] = useState(JSON.parse(localStorage.getItem("cart")) || []);
+
     const flowers = [
-        { id: 1, category: "Bouquet", name: "Wild Flower", price: "Rs.430", image: "/wi.jpg" },
-        { id: 2, category: "Flower", name: "Chembakam", price: "Rs.90", image: "/chembakam.jpg" },
-        { id: 3, category: "Bouquet", name: "Tulips Bouquet", price: "Rs.500", image: "/tul.jpg" },
-        { id: 4, category: "Bouquet", name: "White Rose", price: "Rs.450", image: "/white.jpg" },
-        { id: 5, category: "Flower", name: "Red Rose", price: "Rs.50", image: "/rosef.jpg" },
-        { id: 6, category: "Flower", name: "Water lilies", price: "Rs.190", image: "/lilie.jpg" },
-        { id: 7, category: "Bouquet", name: "Pink Money", price: "Rs.250", image: "/pink.jpg" },
-        { id: 8, category: "Flower", name: "West Indian Jasmine", price: "Rs.250", image: "/jas.jpg" },
-        { id: 9, category: "Flower", name: "Dianthus barbatus", price: "Rs.150", image: "/purple.jpg" },
-        { id: 10, category: "Bouquet", name: "Violet Dalia", price: "Rs.550", image: "/vilot.jpg" },
-        { id: 11, category: "Flower", name: "Marigold", price: "Rs.200", image: "/mari.jpg" },
-        { id: 12, category: "Flower", name: "Wild Purple", price: "Rs.60", image: "/pur.jpg" }
+        { id: 1, category: "Bouquet", name: "Wild Flower", price: 430, image: "/wi.jpg" },
+        { id: 2, category: "Flower", name: "Chembakam", price: 90, image: "/chembakam.jpg" },
+        { id: 3, category: "Bouquet", name: "Tulips Bouquet", price: 500, image: "/tul.jpg" },
+        { id: 4, category: "Bouquet", name: "White Rose", price: 450, image: "/white.jpg" },
+        { id: 5, category: "Flower", name: "Red Rose", price: 50, image: "/rosef.jpg" },
+        { id: 6, category: "Flower", name: "Water lilies", price: 190, image: "/lilie.jpg" },
+        { id: 7, category: "Bouquet", name: "Pink Money", price: 250, image: "/pink.jpg" },
+        { id: 8, category: "Flower", name: "West Indian Jasmine", price: 250, image: "/jas.jpg" },
+        { id: 9, category: "Flower", name: "Dianthus barbatus", price: 150, image: "/purple.jpg" },
+        { id: 10, category: "Bouquet", name: "Violet Dalia", price: 550, image: "/vilot.jpg" },
+        { id: 11, category: "Flower", name: "Marigold", price: 200, image: "/mari.jpg" },
+        { id: 12, category: "Flower", name: "Wild Purple", price: 60, image: "/pur.jpg" }
     ];
+
+    // Function to add items to the cart
+    const addToCart = (flower) => {
+        const existingItem = cart.find(item => item.id === flower.id);
+
+        let updatedCart;
+        if (existingItem) {
+            updatedCart = cart.map(item =>
+                item.id === flower.id ? { ...item, quantity: item.quantity + 1 } : item
+            );
+        } else {
+            updatedCart = [...cart, { ...flower, quantity: 1 }];
+        }
+
+        setCart(updatedCart);
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+    };
 
     return (
         <>
             <NavEg />
             <div style={{ padding: "24px" }}>
                 <h2 style={{ fontWeight: "bold", marginBottom: "16px", fontSize: "20px", textAlign: "left" }}>Shop</h2>
+                <Button onClick={() => navigate("/cart")}> View Cart ({cart.length})</Button>
                 <ul style={{
                     listStyle: "none",
                     padding: 0,
@@ -33,7 +57,6 @@ function FlowersList() {
                     {flowers.map((flower) => (
                         <li key={flower.id} style={{ position: "relative", textAlign: "center" }}>
                             <div style={{ position: "relative", display: "inline-block" }}>
-
                                 <img
                                     src={flower.image}
                                     alt={flower.name}
@@ -44,7 +67,9 @@ function FlowersList() {
                                         borderRadius: "8px"
                                     }}
                                 />
+                                {/* Cart Icon Clickable */}
                                 <div
+                                    onClick={() => addToCart(flower)}
                                     style={{
                                         position: "absolute",
                                         bottom: "10px",
@@ -70,11 +95,9 @@ function FlowersList() {
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                                     </svg>
                                 </div>
-
                             </div>
-                            {/* Text */}
                             <span style={{ fontSize: "16px", fontWeight: "bold", display: "block", marginTop: "10px" }}>
-                                {flower.category}<br /> {flower.name} <br /> {flower.price}
+                                {flower.category}<br /> {flower.name} <br /> Rs.{flower.price}
                             </span>
                         </li>
                     ))}
