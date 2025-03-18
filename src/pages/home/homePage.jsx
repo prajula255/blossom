@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import NavEg from "../../components/navbar";
 import FooterEg from "../../components/footer";
+import NavEg from "../../components/navbar";
 
 function HomePage() {
     return (
@@ -25,12 +25,10 @@ function HomePage() {
                     backgroundColor: 'rgba(0, 0, 0, 0.5)'
                 }}></div>
 
-                {/* Navbar */}
                 <div style={{ position: 'absolute', top: 0, left: 0, width: '100%' }}>
                     <NavEg />
                 </div>
 
-                {/* Hero Content */}
                 <div style={{
                     position: 'relative',
                     display: 'flex',
