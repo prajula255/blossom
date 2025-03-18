@@ -14,7 +14,7 @@ function HomePage() {
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 position: 'relative',
-                color: 'white'
+                color: 'white',
             }}>
                 <div style={{
                     position: 'absolute',
