@@ -2,8 +2,10 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import FooterEg from "../../components/footer";
 import NavEg from "../../components/navbar";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
+    const navigate = useNavigate()
     return (
         <>
             <div style={{
@@ -52,7 +54,7 @@ function HomePage() {
                         Explore a vibrant tapestry of blooms and arrangements that add color,
                         fragrance, and elegance to your life. Discover the perfect floral expression for every moment and occasion.
                     </p>
-                    <Button style={{
+                    <Button onClick={() => navigate("/shop")} style={{
                         backgroundColor: '#e91e63',
                         color: 'white',
                         padding: '10px 20px',
