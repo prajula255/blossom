@@ -20,7 +20,7 @@ function AboutPage() {
                 padding: "40px",
             }}>
 
-                <div style={{ position: 'absolute', top: 0, left: 0, width: '100%' }}><NavEg /></div>
+                {/* <div style={{ position: 'absolute', top: 0, left: 0, width: '100%' }}><NavEg /></div> */}
 
                 <div style={{
                     backgroundColor: "rgba(229, 156, 200, 0.32)",

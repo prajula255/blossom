@@ -26,7 +26,7 @@ function HomePage() {
                 }}></div>
 
                 <div style={{ position: 'absolute', top: 0, left: 0, width: '100%' }}>
-                    <NavEg />
+                    {/* <NavEg /> */}
                 </div>
 
                 <div style={{

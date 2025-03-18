@@ -37,7 +37,7 @@ function CheckoutPage() {
 
     return (
         <>
-            <NavEg />
+            {/* <NavEg /> */}
             <div
                 style={{
                     backgroundSize: "cover",

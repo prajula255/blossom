@@ -42,7 +42,7 @@ function FlowersList() {
 
     return (
         <>
-            <NavEg />
+            {/* <NavEg /> */}
             <div style={{ padding: "24px" }}>
                 <h2 style={{ fontWeight: "bold", marginBottom: "16px", fontSize: "20px", textAlign: "left" }}>Shop</h2>
                 <Button onClick={() => navigate("/cart")}> View Cart ({cart.length})</Button>
