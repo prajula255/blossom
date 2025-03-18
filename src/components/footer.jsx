@@ -11,7 +11,8 @@ function FooterEg() {
             justifyContent: 'space-evenly',
             width: '100vw',
             boxSizing: 'border-box',
-            margin: '0'
+            margin: '0',
+            borderRadius: '10px',
         }}>
             <div style={{ margin: '5px 0', flex: '1 1 200px', minWidth: '200px' }}>
                 <h3 style={{ fontWeight: 'bold', marginBottom: '15px', fontFamily: "serif" }}>Blossom Bliss</h3>
