@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Container, Form, Row, Col, Button } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
-import "./LoginPage.css"; 
+import "./loginPage.css";
 
 const LoginPage = () => {
     const [userCredentials, setUserCredentials] = useState({
