@@ -11,7 +11,7 @@ function HomePage() {
             <div style={{
                 width: '100vw',
                 height: '100vh',
-                backgroundImage: `url('/home.jpg')`,
+                backgroundImage: `url('/gfl1.jpg')`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',

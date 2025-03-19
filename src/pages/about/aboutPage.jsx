@@ -6,7 +6,7 @@ function AboutPage() {
     return (
         <>
             <div style={{
-                backgroundImage: `url("/home.jpg")`,
+                backgroundImage: `url("/gfl1.jpg")`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
@@ -23,7 +23,7 @@ function AboutPage() {
                 {/* <div style={{ position: 'absolute', top: 0, left: 0, width: '100%' }}><NavEg /></div> */}
 
                 <div style={{
-                    backgroundColor: "rgba(229, 156, 200, 0.32)",
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
                     padding: "20px",
                     borderRadius: "10px",
                     maxWidth: "800px",
