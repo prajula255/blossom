@@ -26,7 +26,7 @@ function ContactPage() {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    backgroundImage: `url("/home.jpg")`,
+                    backgroundImage: `url("/gfl1.jpg")`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     padding: "40px"
@@ -35,7 +35,7 @@ function ContactPage() {
                 <div style={{
                     maxWidth: "600px",
                     width: "100%",
-                    backgroundColor: "rgba(229, 156, 200, 0.32)",
+                    backgroundColor: "rgba(236, 231, 234, 0.32)",
                     padding: "20px",
                     borderRadius: "8px",
                     boxShadow: "0 4px 8px rgba(0,0,0,0.1)",

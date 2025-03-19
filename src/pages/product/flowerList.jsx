@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
+import FooterEg from "../../components/footer";
 
 function FlowersList() {
     const navigate = useNavigate();
@@ -114,6 +115,7 @@ function FlowersList() {
                     }
                 `}
             </style>
+            <FooterEg />
         </>
     );
 }
