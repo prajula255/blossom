@@ -10,6 +10,7 @@ import CartPage from './pages/cart/cart'
 import CheckoutPage from './pages/cart/checkOut'
 import NavEg from './components/navbar'
 import ContactPage from './pages/contact/contactPage'
+import OrderPage from './pages/cart/orderPage'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
           <Route path='/shop' element={<FlowersList />} />
           <Route path='/cart' element={<CartPage />} />
           <Route path='/checkOut' element={<CheckoutPage />} />
+          <Route path='/order' element={<OrderPage />} />
           <Route path='/about' element={<AboutPage />} />
           <Route path='/contact' element={<ContactPage />} />
         </Routes>
