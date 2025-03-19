@@ -49,10 +49,11 @@ function FlowersList() {
                 <ul style={{
                     listStyle: "none",
                     padding: 0,
-                    display: "flex",
+                    display: "grid",
                     flexWrap: "wrap",
                     justifyContent: "center",
-                    gap: "20px"
+                    gap: "20px",
+                    gridTemplateColumns: "repeat(4,1fr)"
                 }}>
                     {flowers.map((flower) => (
                         <li key={flower.id} style={{ position: "relative", textAlign: "center" }}>

@@ -33,8 +33,8 @@ function FooterEg() {
             <div style={{ margin: '5px 0', flex: '1 1 200px', minWidth: '200px' }}>
                 <h3 style={{ fontWeight: 'bold', marginBottom: '15px', fontFamily: "serif" }}>Contact Us</h3>
                 <p>Address: 13 Fifth Avenue, </p>
-                <p>New York 101660</p>
-                <p>Email: contact@info.com</p>
+                <p>Kerala</p>
+                <p>Email: contact@bliss.com</p>
                 <p>Phone: +91 987 654 321</p>
             </div>
         </footer>
