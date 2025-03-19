@@ -1,12 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import FooterEg from "../../components/footer";
-import NavEg from "../../components/navbar";
 import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 
 function FlowersList() {
     const navigate = useNavigate();
     const [cart, setCart] = useState(JSON.parse(localStorage.getItem("cart")) || []);
+    const [blinkingItem, setBlinkingItem] = useState(null);
 
     const flowers = [
         { id: 1, category: "Bouquet", name: "Wild Flower", price: 430, image: "/wi.jpg" },
@@ -23,7 +22,6 @@ function FlowersList() {
         { id: 12, category: "Flower", name: "Wild Purple", price: 60, image: "/pur.jpg" }
     ];
 
-    // Function to add items to the cart
     const addToCart = (flower) => {
         const existingItem = cart.find(item => item.id === flower.id);
 
@@ -38,11 +36,13 @@ function FlowersList() {
 
         setCart(updatedCart);
         localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+        setBlinkingItem(flower.id);
+        setTimeout(() => setBlinkingItem(null), 500);
     };
 
     return (
         <>
-            {/* <NavEg /> */}
             <div style={{ padding: "24px" }}>
                 <h2 style={{ fontWeight: "bold", marginBottom: "16px", fontSize: "20px", textAlign: "left" }}>Shop</h2>
                 <Button onClick={() => navigate("/cart")}> View Cart ({cart.length})</Button>
@@ -68,7 +68,7 @@ function FlowersList() {
                                         borderRadius: "8px"
                                     }}
                                 />
-                                {/* Cart Icon Clickable */}
+
                                 <div
                                     onClick={() => addToCart(flower)}
                                     style={{
@@ -81,7 +81,8 @@ function FlowersList() {
                                         cursor: "pointer",
                                         display: "flex",
                                         justifyContent: "center",
-                                        alignItems: "center"
+                                        alignItems: "center",
+                                        animation: blinkingItem === flower.id ? "blink 0.5s ease-in-out" : "none"
                                     }}
                                 >
                                     <svg
@@ -104,7 +105,15 @@ function FlowersList() {
                     ))}
                 </ul>
             </div>
-            <FooterEg />
+            <style>
+                {`
+                    @keyframes blink {
+                        0% { opacity: 1; }
+                        50% { opacity: 0; }
+                        100% { opacity: 1; }
+                    }
+                `}
+            </style>
         </>
     );
 }
