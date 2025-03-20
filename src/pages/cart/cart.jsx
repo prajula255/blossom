@@ -31,7 +31,6 @@ function CartPage() {
             {/* <NavEg /> */}
             <Container className="py-5">
                 <Row>
-                    {/* Left: Cart Items */}
                     <Col md={8}>
                         <h3 className="mb-4">Shopping Cart</h3>
                         {cart.length === 0 ? (
@@ -118,7 +117,6 @@ function CartPage() {
                         )}
                     </Col>
 
-                    {/* Right: Cart Summary */}
                     <Col md={4}>
                         <Card className="p-3 shadow-sm" style={{ backgroundColor: "#FFF4F2", borderRadius: "10px" }}>
                             <h4 className="mb-3">Cart Totals</h4>
