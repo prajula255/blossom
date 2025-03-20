@@ -106,65 +106,104 @@ function FlowersList() {
   };
 
   return (
-    <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "24px" }}>
-      <h2
-        style={{
-          fontWeight: "bold",
-          marginBottom: "16px",
-          fontSize: "24px",
-          textAlign: "left",
-        }}
-      >
-        Shop
-      </h2>
+    <div className="flowers-container" style={styles.container}>
+      <h2 style={styles.heading}>Shop</h2>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-          gap: "20px",
-          justifyContent: "center",
-        }}
-      >
+      <ul style={styles.grid}>
         {flowers.map((flower) => (
-          <div
-            key={flower.id}
-            style={{
-              position: "relative",
-              textAlign: "center",
-              padding: "10px",
-              borderRadius: "8px",
-              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-              transition: "transform 0.2s",
-              cursor: "pointer",
-            }}
-            onClick={() => navigate(`/flowerdetails/${flower.id}`)}
-          >
-            <img
-              src={flower.image}
-              alt={flower.name}
-              style={{
-                width: "100%",
-                height: "260px",
-                objectFit: "cover",
-                borderRadius: "8px",
-              }}
-            />
-            <div style={{ marginTop: "10px" }}>
-              <span style={{ fontSize: "16px", fontWeight: "bold" }}>
-                {flower.category} <br /> {flower.name} <br /> Rs.{flower.price}
-              </span>
-              <br />
-              <small style={{ fontSize: "14px", color: "gray" }}>
+          <li key={flower.id} style={styles.card}>
+            <div
+              style={styles.imageContainer}
+              onClick={() => navigate(`/flowerdetails/${flower.id}`)}
+            >
+              <img src={flower.image} alt={flower.name} style={styles.image} />
+            </div>
+            <div style={styles.details}>
+              <span style={styles.category}>{flower.category}</span>
+              <span style={styles.name}>{flower.name}</span>
+              <span style={styles.price}>Rs. {flower.price}</span>
+              <small style={styles.delivery}>
                 Delivery by: {getDeliveryDate()}
               </small>
             </div>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
+
       <FooterEg />
     </div>
   );
 }
+
+const styles = {
+  container: {
+    maxWidth: "1200px",
+    margin: "0 auto",
+    padding: "24px",
+    textAlign: "center",
+  },
+  heading: {
+    fontWeight: "bold",
+    marginBottom: "16px",
+    fontSize: "24px",
+    textAlign: "center",
+  },
+  grid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+    gap: "20px",
+    padding: "0",
+    justifyContent: "center",
+    listStyle: "none",
+  },
+  card: {
+    background: "#fff",
+    borderRadius: "10px",
+    padding: "16px",
+    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+    textAlign: "center",
+    transition: "transform 0.2s",
+    cursor: "pointer",
+  },
+  imageContainer: {
+    width: "100%",
+    height: "260px",
+    overflow: "hidden",
+    borderRadius: "8px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#f8f8f8",
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    transition: "transform 0.3s ease-in-out",
+  },
+  details: {
+    marginTop: "10px",
+  },
+  category: {
+    fontSize: "14px",
+    color: "#555",
+  },
+  name: {
+    fontSize: "18px",
+    fontWeight: "bold",
+    display: "block",
+    marginTop: "5px",
+  },
+  price: {
+    fontSize: "16px",
+    fontWeight: "bold",
+    color: "#E91E63",
+    marginTop: "5px",
+  },
+  delivery: {
+    fontSize: "14px",
+    color: "gray",
+  },
+};
 
 export default FlowersList;
