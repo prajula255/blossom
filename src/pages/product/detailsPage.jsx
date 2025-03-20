@@ -28,7 +28,7 @@ const flowers = [
     id: 4,
     category: "Bouquet",
     name: "White Rose",
-    price: 450,
+    price: 850,
     image: "/white.jpg",
   },
   {
