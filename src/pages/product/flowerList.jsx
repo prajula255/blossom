@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
+import { useState } from "react";
 import FooterEg from "../../components/footer";
 
 function FlowersList() {
@@ -8,7 +7,6 @@ function FlowersList() {
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
   );
-  const [blinkingItem, setBlinkingItem] = useState(null);
 
   const flowers = [
     {
@@ -20,10 +18,10 @@ function FlowersList() {
     },
     {
       id: 2,
-      category: "Flower",
-      name: "Chembakam",
-      price: 90,
-      image: "/chembakam.jpg",
+      category: "Bouquet",
+      name: "Lilie Orchid",
+      price: 450,
+      image: "/liliorchid.jpg",
     },
     {
       id: 3,
@@ -49,9 +47,9 @@ function FlowersList() {
     {
       id: 6,
       category: "Flower",
-      name: "Water lilies",
-      price: 190,
-      image: "/lilie.jpg",
+      name: "Dried Flower",
+      price: 690,
+      image: "/driedflo.jpg",
     },
     {
       id: 7,
@@ -63,9 +61,9 @@ function FlowersList() {
     {
       id: 8,
       category: "Flower",
-      name: "West Indian Jasmine",
-      price: 250,
-      image: "/jas.jpg",
+      name: "Tulip Lavender",
+      price: 550,
+      image: "/tulav.jpg",
     },
     {
       id: 9,
@@ -90,30 +88,21 @@ function FlowersList() {
     },
     {
       id: 12,
-      category: "Flower",
-      name: "Wild Purple",
-      price: 60,
-      image: "/pur.jpg",
+      category: "Bouquet",
+      name: "Carnation flower",
+      price: 700,
+      image: "/carnation.jpg",
     },
   ];
 
-  const addToCart = (flower) => {
-    const existingItem = cart.find((item) => item.id === flower.id);
-
-    let updatedCart;
-    if (existingItem) {
-      updatedCart = cart.map((item) =>
-        item.id === flower.id ? { ...item, quantity: item.quantity + 1 } : item
-      );
-    } else {
-      updatedCart = [...cart, { ...flower, quantity: 1 }];
-    }
-
-    setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-
-    setBlinkingItem(flower.id);
-    setTimeout(() => setBlinkingItem(null), 500);
+  const getDeliveryDate = () => {
+    const today = new Date();
+    today.setDate(today.getDate() + 3);
+    return today.toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
   };
 
   return (
@@ -129,16 +118,12 @@ function FlowersList() {
         >
           Shop
         </h2>
-        {/* <Button onClick={() => navigate("/cart")}>
-          {" "}
-          View Cart ({cart.length})
-        </Button> */}
+
         <ul
           style={{
             listStyle: "none",
             padding: 0,
             display: "grid",
-            flexWrap: "wrap",
             justifyContent: "center",
             gap: "20px",
             gridTemplateColumns: "repeat(4,1fr)",
@@ -158,44 +143,10 @@ function FlowersList() {
                     height: "260px",
                     objectFit: "cover",
                     borderRadius: "8px",
-                  }}
-                />
-
-                <div
-                  onClick={() => addToCart(flower)}
-                  style={{
-                    position: "absolute",
-                    bottom: "10px",
-                    right: "10px",
-                    backgroundColor: "rgba(0, 0, 0, 0.6)",
-                    padding: "8px",
-                    borderRadius: "50%",
                     cursor: "pointer",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    animation:
-                      blinkingItem === flower.id
-                        ? "blink 0.5s ease-in-out"
-                        : "none",
                   }}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="2"
-                    stroke="white"
-                    width="24"
-                    height="24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-                    />
-                  </svg>
-                </div>
+                  onClick={() => navigate(`/flowerdetails/${flower.id}`)}
+                />
               </div>
               <span
                 style={{
@@ -205,22 +156,16 @@ function FlowersList() {
                   marginTop: "10px",
                 }}
               >
-                {flower.category}
-                <br /> {flower.name} <br /> Rs.{flower.price}
+                {flower.category} <br /> {flower.name} <br /> Rs.{flower.price}
+                <br />
+                <small style={{ fontSize: "14px", color: "gray" }}>
+                  Delivery by: {getDeliveryDate()}
+                </small>
               </span>
             </li>
           ))}
         </ul>
       </div>
-      <style>
-        {`
-                    @keyframes blink {
-                        0% { opacity: 1; }
-                        50% { opacity: 0; }
-                        100% { opacity: 1; }
-                    }
-                `}
-      </style>
       <FooterEg />
     </>
   );
