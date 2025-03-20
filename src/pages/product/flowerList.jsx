@@ -106,68 +106,64 @@ function FlowersList() {
   };
 
   return (
-    <>
-      <div style={{ padding: "24px" }}>
-        <h2
-          style={{
-            fontWeight: "bold",
-            marginBottom: "16px",
-            fontSize: "20px",
-            textAlign: "left",
-          }}
-        >
-          Shop
-        </h2>
+    <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "24px" }}>
+      <h2
+        style={{
+          fontWeight: "bold",
+          marginBottom: "16px",
+          fontSize: "24px",
+          textAlign: "left",
+        }}
+      >
+        Shop
+      </h2>
 
-        <ul
-          style={{
-            listStyle: "none",
-            padding: 0,
-            display: "grid",
-            justifyContent: "center",
-            gap: "20px",
-            gridTemplateColumns: "repeat(4,1fr)",
-          }}
-        >
-          {flowers.map((flower) => (
-            <li
-              key={flower.id}
-              style={{ position: "relative", textAlign: "center" }}
-            >
-              <div style={{ position: "relative", display: "inline-block" }}>
-                <img
-                  src={flower.image}
-                  alt={flower.name}
-                  style={{
-                    width: "260px",
-                    height: "260px",
-                    objectFit: "cover",
-                    borderRadius: "8px",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => navigate(`/flowerdetails/${flower.id}`)}
-                />
-              </div>
-              <span
-                style={{
-                  fontSize: "16px",
-                  fontWeight: "bold",
-                  display: "block",
-                  marginTop: "10px",
-                }}
-              >
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+          gap: "20px",
+          justifyContent: "center",
+        }}
+      >
+        {flowers.map((flower) => (
+          <div
+            key={flower.id}
+            style={{
+              position: "relative",
+              textAlign: "center",
+              padding: "10px",
+              borderRadius: "8px",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              transition: "transform 0.2s",
+              cursor: "pointer",
+            }}
+            onClick={() => navigate(`/flowerdetails/${flower.id}`)}
+          >
+            <img
+              src={flower.image}
+              alt={flower.name}
+              style={{
+                width: "100%",
+                height: "260px",
+                objectFit: "cover",
+                borderRadius: "8px",
+              }}
+            />
+            <div style={{ marginTop: "10px" }}>
+              <span style={{ fontSize: "16px", fontWeight: "bold" }}>
                 {flower.category} <br /> {flower.name} <br /> Rs.{flower.price}
-                <br />
-                <small style={{ fontSize: "14px", color: "gray" }}>
-                  Delivery by: {getDeliveryDate()}
-                </small>
               </span>
-            </li>
-          ))}
-        </ul>
+              <br />
+              <small style={{ fontSize: "14px", color: "gray" }}>
+                Delivery by: {getDeliveryDate()}
+              </small>
+            </div>
+          </div>
+        ))}
       </div>
       <FooterEg />
-    </>
+    </div>
   );
 }
 
