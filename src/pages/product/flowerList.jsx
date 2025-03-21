@@ -1,12 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import FooterEg from "../../components/footer";
 
 function FlowersList() {
   const navigate = useNavigate();
-  const [cart, setCart] = useState(
-    JSON.parse(localStorage.getItem("cart")) || []
-  );
 
   const flowers = [
     {
@@ -95,34 +91,19 @@ function FlowersList() {
     },
   ];
 
-  const addToCart = (flower) => {
-    let updatedCart = [...cart];
-    const existingItem = updatedCart.find((item) => item.id === flower.id);
-
-    if (existingItem) {
-      existingItem.quantity += 1;
-    } else {
-      updatedCart.push({ ...flower, quantity: 1 });
-    }
-
-    setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-
-    // Dispatch an event to update the navbar cart count
-    window.dispatchEvent(new Event("cartUpdated"));
-  };
+  function getDefaultDate() {
+    const today = new Date();
+    today.setDate(today.getDate() + 3);
+    return today.toISOString().split("T")[0];
+  }
 
   return (
-    <div className="flowers-container" style={styles.container}>
-      <h2 style={styles.heading}>Shop</h2>
-
-      <ul style={styles.grid}>
-        {flowers.map((flower) => (
-          <li key={flower.id} style={styles.card}>
-            <div
-              style={styles.imageContainer}
-              onClick={() => navigate(`/flowerdetails/${flower.id}`)}
-            >
+    <div style={styles.pageContainer}>
+      <div style={styles.content}>
+        <h2 style={styles.heading}>Shop</h2>
+        <div style={styles.row}>
+          {flowers.map((flower) => (
+            <div key={flower.id} style={styles.card}>
               <div
                 style={styles.imageContainer}
                 onClick={() => navigate(`/flowerdetails/${flower.id}`)}
@@ -132,48 +113,31 @@ function FlowersList() {
                   alt={flower.name}
                   style={styles.image}
                 />
-
-                {/* Cart Icon - Click to Add to Cart */}
-                <div
-                  style={styles.cartIcon}
-                  onClick={(e) => {
-                    e.stopPropagation(); // Prevent navigation when clicking the cart icon
-                    addToCart(flower);
-                  }}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="size-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-                    />
-                  </svg>
-                </div>
+              </div>
+              <div style={styles.details}>
+                <span style={styles.category}>{flower.category}</span>
+                <span style={styles.name}>{flower.name}</span>
+                <span style={styles.price}>Rs. {flower.price}</span>
+                <span style={styles.deliveryDate}>
+                  Delivery Date: {getDefaultDate()}
+                </span>
               </div>
             </div>
-            <div style={styles.details}>
-              <span style={styles.category}>{flower.category}</span>
-              <span style={styles.name}>{flower.name}</span>
-              <span style={styles.price}>Rs. {flower.price}</span>
-            </div>
-          </li>
-        ))}
-      </ul>
-
+          ))}
+        </div>
+      </div>
       <FooterEg />
     </div>
   );
 }
-
 const styles = {
-  container: {
+  pageContainer: {
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "100vh",
+  },
+  content: {
+    flex: "1",
     maxWidth: "1200px",
     margin: "0 auto",
     padding: "24px",
@@ -185,13 +149,12 @@ const styles = {
     fontSize: "24px",
     textAlign: "center",
   },
-  grid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+  row: {
+    display: "flex",
+    flexWrap: "wrap",
     gap: "20px",
-    padding: "0",
     justifyContent: "center",
-    listStyle: "none",
+    alignItems: "center",
   },
   card: {
     background: "#fff",
@@ -199,8 +162,9 @@ const styles = {
     padding: "16px",
     boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
     textAlign: "center",
-    transition: "transform 0.2s",
     cursor: "pointer",
+    flex: "1 1 250px",
+    maxWidth: "250px",
   },
   imageContainer: {
     position: "relative",
@@ -208,34 +172,9 @@ const styles = {
     height: "260px",
     overflow: "hidden",
     borderRadius: "8px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
     backgroundColor: "#f8f8f8",
   },
-  image: {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    transition: "transform 0.3s ease-in-out",
-  },
-  cartIcon: {
-    position: "absolute",
-    bottom: "10px",
-    right: "10px",
-    cursor: "pointer",
-    backgroundColor: "white",
-    borderRadius: "50%",
-    width: "40px",
-    height: "40px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    transition: "background 0.3s ease, transform 0.2s ease",
-    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-    color: "black",
-  },
-
+  image: { width: "100%", height: "100%", objectFit: "cover" },
   details: { marginTop: "10px" },
   category: { fontSize: "14px", color: "#555" },
   name: {
@@ -249,6 +188,12 @@ const styles = {
     fontWeight: "bold",
     color: "#E91E63",
     marginTop: "5px",
+  },
+  deliveryDate: {
+    fontSize: "14px",
+    color: "#4CAF50",
+    marginTop: "5px",
+    display: "block",
   },
 };
 

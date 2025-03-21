@@ -9,6 +9,8 @@ const flowers = [
     name: "Wild Flower",
     price: 430,
     image: "/wi.jpg",
+    description:
+      "A charming bouquet of wildflowers, bringing a touch of nature’s beauty to any occasion.",
   },
   {
     id: 2,
@@ -16,6 +18,8 @@ const flowers = [
     name: "Lilie Orchid",
     price: 450,
     image: "/liliorchid.jpg",
+    description:
+      "A stunning mix of lilies and orchids, symbolizing elegance and grace.",
   },
   {
     id: 3,
@@ -23,6 +27,8 @@ const flowers = [
     name: "Tulips Bouquet",
     price: 500,
     image: "/tul.jpg",
+    description:
+      "A fresh and colorful tulip bouquet, perfect for brightening up your day.",
   },
   {
     id: 4,
@@ -30,6 +36,8 @@ const flowers = [
     name: "White Rose",
     price: 850,
     image: "/white.jpg",
+    description:
+      "Elegant white roses that represent purity, innocence, and new beginnings.",
   },
   {
     id: 5,
@@ -94,17 +102,6 @@ function FlowerDetails() {
   const navigate = useNavigate();
 
   const flower = flowers.find((f) => f.id === parseInt(id));
-  const [deliveryDate, setDeliveryDate] = useState(getDeliveryDate());
-
-  function getDeliveryDate() {
-    const today = new Date();
-    today.setDate(today.getDate() + 3);
-    return today.toISOString().split("T")[0];
-  }
-
-  const handleDateChange = (event) => {
-    setDeliveryDate(event.target.value);
-  };
 
   if (!flower) {
     return (
@@ -115,43 +112,59 @@ function FlowerDetails() {
   }
 
   return (
-    <div style={{ padding: "24px", textAlign: "center" }}>
-      <img
-        src={flower.image}
-        alt={flower.name}
+    <div
+      style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+    >
+      <div
         style={{
-          width: "400px",
-          height: "400px",
-          objectFit: "cover",
-          borderRadius: "8px",
-        }}
-      />
-      <h2>{flower.name}</h2>
-
-      <p style={{ fontSize: "18px", fontWeight: "bold" }}>
-        Category: {flower.category}
-      </p>
-      <p style={{ fontSize: "20px", fontWeight: "bold" }}>
-        Price: Rs.{flower.price}
-      </p>
-
-      <br />
-      <br />
-      <button
-        onClick={() => navigate(-1)}
-        style={{
-          padding: "10px 20px",
-          fontSize: "16px",
-          borderRadius: "5px",
-          cursor: "pointer",
-          backgroundColor: "#007bff",
-          color: "white",
-          border: "none",
+          flex: "1",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "50px",
         }}
       >
-        Go Back
-      </button>
+        {/* Image Section */}
+        <div style={{ flex: "1", textAlign: "center" }}>
+          <img
+            src={flower.image}
+            alt={flower.name}
+            style={{
+              width: "100%",
+              maxWidth: "400px",
+              height: "400px",
+              objectFit: "cover",
+              borderRadius: "8px",
+              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+            }}
+          />
+        </div>
 
+        {/* Details Section */}
+        <div
+          style={{
+            flex: "1",
+            padding: "20px",
+            maxWidth: "500px",
+            backgroundColor: "#f8f9fa",
+            borderRadius: "10px",
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+            marginLeft: "20px",
+            textAlign: "left",
+          }}
+        >
+          <h2 style={{ color: "#333", marginBottom: "10px" }}>{flower.name}</h2>
+          <p style={{ fontSize: "18px", fontWeight: "bold", color: "#555" }}>
+            Category: {flower.category}
+          </p>
+          <p style={{ fontSize: "20px", fontWeight: "bold", color: "#007bff" }}>
+            Price: Rs.{flower.price}
+          </p>
+          <p style={{ fontSize: "16px", color: "#666", lineHeight: "1.5" }}>
+            <strong>Description:</strong> {flower.description}
+          </p>
+        </div>
+      </div>
       <FooterEg />
     </div>
   );
