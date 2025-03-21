@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Import styles for toast
+import "react-toastify/dist/ReactToastify.css";
 import FooterEg from "../../components/footer";
 
 function FlowersList() {
@@ -9,6 +9,7 @@ function FlowersList() {
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
   );
+  const [searchQuery, setSearchQuery] = useState(""); // Search input state
 
   const flowers = [
     {
@@ -105,7 +106,6 @@ function FlowersList() {
 
   const addToCart = (flower, e) => {
     e.stopPropagation();
-
     let updatedCart = [...cart];
     const existingItem = updatedCart.find((item) => item.id === flower.id);
 
@@ -119,7 +119,6 @@ function FlowersList() {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     window.dispatchEvent(new Event("cartUpdated"));
 
-    //  Show toast notification
     toast.success(`${flower.name} added to cart!`, {
       position: "top-right",
       autoClose: 2000,
@@ -132,58 +131,77 @@ function FlowersList() {
     });
   };
 
+  // Filter flowers based on search query
+  const filteredFlowers = flowers.filter(
+    (flower) =>
+      flower.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      flower.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div style={styles.pageContainer}>
       <div style={styles.content}>
         <h2 style={styles.heading}>Shop</h2>
-        <div style={styles.row}>
-          {flowers.map((flower) => (
-            <div key={flower.id} style={styles.card}>
-              <div
-                style={styles.imageContainer}
-                onClick={() => navigate(`/flowerdetails/${flower.id}`)}
-              >
-                <img
-                  src={flower.image}
-                  alt={flower.name}
-                  style={styles.image}
-                />
 
-                {/* 🛒 Cart Icon */}
+        <input
+          type="text"
+          placeholder="Search by name or category..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          style={styles.searchInput}
+        />
+
+        <div style={styles.row}>
+          {filteredFlowers.length > 0 ? (
+            filteredFlowers.map((flower) => (
+              <div key={flower.id} style={styles.card}>
                 <div
-                  style={styles.cartIcon}
-                  onClick={(e) => addToCart(flower, e)}
+                  style={styles.imageContainer}
+                  onClick={() => navigate(`/flowerdetails/${flower.id}`)}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    style={{ width: "24px", height: "24px" }}
+                  <img
+                    src={flower.image}
+                    alt={flower.name}
+                    style={styles.image}
+                  />
+
+                  <div
+                    style={styles.cartIcon}
+                    onClick={(e) => addToCart(flower, e)}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-                    />
-                  </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      style={{ width: "24px", height: "24px" }}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div style={styles.details}>
+                  <span style={styles.category}>{flower.category}</span>
+                  <span style={styles.name}>{flower.name}</span>
+                  <span style={styles.price}>Rs. {flower.price}</span>
+                  <span style={styles.deliveryDate}>
+                    Delivery Date: {getDefaultDate()}
+                  </span>
                 </div>
               </div>
-              <div style={styles.details}>
-                <span style={styles.category}>{flower.category}</span>
-                <span style={styles.name}>{flower.name}</span>
-                <span style={styles.price}>Rs. {flower.price}</span>
-                <span style={styles.deliveryDate}>
-                  Delivery Date: {getDefaultDate()}
-                </span>
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p>No flowers found.</p>
+          )}
         </div>
       </div>
 
-      {/*Toast Notification Container */}
+      {/* Toast Notification Container */}
       <ToastContainer />
       <FooterEg />
     </div>
@@ -272,6 +290,15 @@ const styles = {
     color: "#4CAF50",
     marginTop: "5px",
     display: "block",
+  },
+  searchInput: {
+    width: "80%",
+    maxWidth: "400px",
+    padding: "10px",
+    marginBottom: "20px",
+    fontSize: "16px",
+    border: "1px solid #ddd",
+    borderRadius: "5px",
   },
 };
 
