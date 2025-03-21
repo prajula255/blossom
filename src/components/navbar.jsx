@@ -50,9 +50,8 @@ function NavEg() {
               <Nav.Link as={Link} to="/contact" className="text-white">
                 Contact
               </Nav.Link>
-            </Nav>
-
-            <Nav className="ms-auto nav-icons">
+              {/* </Nav> */}
+              {/* <Nav className="ms-auto nav-icons"> */}
               {" "}
               <NavDropdown title="More" id="moreDropdown">
                 <div className="container-box p-3">
