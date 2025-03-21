@@ -59,8 +59,8 @@
   justify-content: center;
 }
 .container-box {
-  background: #fff;  /* White background */
-  border-radius: 8px;  /* Rounded edges */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);  /* Light shadow */
-  min-width: 220px;  /* Adjust width */
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  min-width: 220px;
 }

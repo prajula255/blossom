@@ -6,10 +6,14 @@ import FooterEg from "../../components/footer";
 
 function FlowersList() {
   const navigate = useNavigate();
+
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
   );
-  const [searchQuery, setSearchQuery] = useState(""); // Search input state
+  const [wishlist, setWishlist] = useState(
+    JSON.parse(localStorage.getItem("wishlist")) || []
+  );
+  const [searchQuery, setSearchQuery] = useState("");
 
   const flowers = [
     {
@@ -122,16 +126,27 @@ function FlowersList() {
     toast.success(`${flower.name} added to cart!`, {
       position: "top-right",
       autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
       theme: "colored",
     });
   };
 
-  // Filter flowers based on search query
+  const toggleWishlist = (flower, e) => {
+    e.stopPropagation();
+    let updatedWishlist = [...wishlist];
+    const index = updatedWishlist.findIndex((item) => item.id === flower.id);
+
+    if (index !== -1) {
+      updatedWishlist.splice(index, 1);
+      toast.info(`${flower.name} removed from wishlist!`);
+    } else {
+      updatedWishlist.push(flower);
+      toast.success(`${flower.name} added to wishlist!`);
+    }
+
+    setWishlist(updatedWishlist);
+    localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+  };
+
   const filteredFlowers = flowers.filter(
     (flower) =>
       flower.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -164,6 +179,31 @@ function FlowersList() {
                     alt={flower.name}
                     style={styles.image}
                   />
+
+                  <div
+                    style={styles.wishlistIcon}
+                    onClick={(e) => toggleWishlist(flower, e)}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill={
+                        wishlist.some((item) => item.id === flower.id)
+                          ? "red"
+                          : "none"
+                      }
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      width="24px"
+                      height="24px"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+                      />
+                    </svg>
+                  </div>
 
                   <div
                     style={styles.cartIcon}
@@ -225,35 +265,68 @@ const styles = {
     fontWeight: "bold",
     marginBottom: "16px",
     fontSize: "24px",
-    textAlign: "center",
+  },
+  searchInput: {
+    width: "80%",
+    maxWidth: "400px",
+    padding: "10px",
+    marginBottom: "20px",
+    fontSize: "16px",
+    border: "1px solid #ddd",
+    borderRadius: "5px",
   },
   row: {
     display: "flex",
     flexWrap: "wrap",
     gap: "20px",
     justifyContent: "center",
-    alignItems: "center",
   },
   card: {
     background: "#fff",
     borderRadius: "10px",
     padding: "16px",
+    width: "220px",
+    height: "330px",
     boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-    textAlign: "center",
     cursor: "pointer",
-    flex: "1 1 250px",
-    maxWidth: "250px",
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   imageContainer: {
     position: "relative",
-    width: "100%",
+    width: "200px",
     height: "260px",
     overflow: "hidden",
     borderRadius: "8px",
-    backgroundColor: "#f8f8f8",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    boxSizing: "border-box",
   },
-  image: { width: "100%", height: "100%", objectFit: "cover" },
-
+  image: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+  },
+  wishlistIcon: {
+    position: "absolute",
+    top: "10px",
+    right: "10px",
+    cursor: "pointer",
+    backgroundColor: "white",
+    borderRadius: "50%",
+    width: "40px",
+    height: "40px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    transition: "background 0.3s ease, transform 0.2s ease",
+    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+    zIndex: 2,
+  },
   cartIcon: {
     position: "absolute",
     bottom: "10px",
@@ -268,11 +341,15 @@ const styles = {
     justifyContent: "center",
     transition: "background 0.3s ease, transform 0.2s ease",
     boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-    color: "black",
   },
-
-  details: { marginTop: "10px" },
-  category: { fontSize: "14px", color: "#555" },
+  details: {
+    marginTop: "10px",
+    textAlign: "center",
+  },
+  category: {
+    fontSize: "14px",
+    color: "#555",
+  },
   name: {
     fontSize: "18px",
     fontWeight: "bold",
@@ -290,15 +367,6 @@ const styles = {
     color: "#4CAF50",
     marginTop: "5px",
     display: "block",
-  },
-  searchInput: {
-    width: "80%",
-    maxWidth: "400px",
-    padding: "10px",
-    marginBottom: "20px",
-    fontSize: "16px",
-    border: "1px solid #ddd",
-    borderRadius: "5px",
   },
 };
 
