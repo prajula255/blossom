@@ -55,25 +55,27 @@ function NavEg() {
             <Nav className="ms-auto nav-icons">
               {" "}
               <NavDropdown title="More" id="moreDropdown">
-                <NavDropdown.Item as={Link} to="/account">
-                  My Account
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/wishlist">
-                  Wishlist
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/track-order">
-                  Track Order
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/signin">
-                  Sign In
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/logout">
-                  Logout
-                </NavDropdown.Item>
+                <div className="container-box p-3">
+                  <NavDropdown.Item as={Link} to="/account">
+                    My Account
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item as={Link} to="/wishlist">
+                    Wishlist
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item as={Link} to="/track-order">
+                    Track Order
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item as={Link} to="/signin">
+                    Sign In
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item as={Link} to="/logout">
+                    Logout
+                  </NavDropdown.Item>
+                </div>
               </NavDropdown>
               <Nav.Link as={Link} to="/cart" style={{ position: "relative" }}>
                 <svg
