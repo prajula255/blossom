@@ -45,6 +45,8 @@ const flowers = [
     name: "Red Rose",
     price: 50,
     image: "/rosef.jpg",
+    description:
+      "A classic symbol of love and romance, the Red Rose exudes elegance and charm. Perfect for gifting or expressing deep emotions.",
   },
   {
     id: 6,
@@ -52,6 +54,8 @@ const flowers = [
     name: "Dried Flower",
     price: 690,
     image: "/driedflo.jpg",
+    description:
+      "A timeless beauty, these dried flowers add a rustic charm to any decor. Long-lasting and elegant, ideal for home or office spaces.",
   },
   {
     id: 7,
@@ -59,6 +63,8 @@ const flowers = [
     name: "Pink Money",
     price: 250,
     image: "/pink.jpg",
+    description:
+      "A delightful bouquet of pink flowers, symbolizing grace and admiration. A perfect gift for special occasions.",
   },
   {
     id: 8,
@@ -66,6 +72,8 @@ const flowers = [
     name: "Tulip Lavender",
     price: 550,
     image: "/tulav.jpg",
+    description:
+      "A rare blend of beauty and fragrance, the Tulip Lavender represents royalty and enchantment. A great addition to any floral arrangement.",
   },
   {
     id: 9,
@@ -73,6 +81,8 @@ const flowers = [
     name: "Dianthus barbatus",
     price: 150,
     image: "/purple.jpg",
+    description:
+      "Also known as Sweet William, this flower is admired for its vibrant colors and sweet fragrance, making it a charming garden favorite.",
   },
   {
     id: 10,
@@ -80,6 +90,8 @@ const flowers = [
     name: "Violet Dalia",
     price: 550,
     image: "/vilot.jpg",
+    description:
+      "A striking bouquet featuring deep violet dahlias, symbolizing strength and elegance. Ideal for adding a touch of luxury to any setting.",
   },
   {
     id: 11,
@@ -87,6 +99,8 @@ const flowers = [
     name: "Marigold",
     price: 200,
     image: "/mari.jpg",
+    description:
+      "Bright and cheerful, Marigolds bring warmth and positivity. Known for their cultural significance and medicinal properties.",
   },
   {
     id: 12,
@@ -94,6 +108,8 @@ const flowers = [
     name: "Carnation flower",
     price: 700,
     image: "/carnation.jpg",
+    description:
+      "A stunning bouquet of carnation flowers, known for their ruffled petals and delicate fragrance. Perfect for expressing love and admiration.",
   },
 ];
 
