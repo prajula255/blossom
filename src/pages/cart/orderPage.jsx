@@ -4,189 +4,334 @@ import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import FooterEg from "../../components/footer";
 
 function OrderPage() {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const cart = location.state?.cart || [];
+  const location = useLocation();
+  const navigate = useNavigate();
+  const cart = location.state?.cart || [];
 
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        phone: "",
-        street: "",
-        state: "",
-        pincode: "",
-        paymentMethod: "cod",
-        cardNumber: "",
-        expiryMonth: "",
-        expiryYear: "",
-        cvv: ""
-    });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    street: "",
+    state: "",
+    pincode: "",
+    paymentMethod: "cod",
+    cardNumber: "",
+    expiryMonth: "",
+    expiryYear: "",
+    cvv: "",
+  });
 
-    const statesList = [
-        "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa",
-        "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala",
-        "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland",
-        "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
-        "Uttar Pradesh", "Uttarakhand", "West Bengal"
-    ];
+  const statesList = [
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chhattisgarh",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal",
+  ];
 
-    const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth() + 1;
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth() + 1;
 
-    const months = Array.from({ length: 12 }, (_, i) => ({
-        value: String(i + 1).padStart(2, "0"),
-        label: String(i + 1).padStart(2, "0"),
-    }));
+  const months = Array.from({ length: 12 }, (_, i) => ({
+    value: String(i + 1).padStart(2, "0"),
+    label: String(i + 1).padStart(2, "0"),
+  }));
 
-    const years = Array.from({ length: 50 }, (_, i) => ({
-        value: String(currentYear + i),
-        label: String(currentYear + i),
-    }));
+  const years = Array.from({ length: 50 }, (_, i) => ({
+    value: String(currentYear + i),
+    label: String(currentYear + i),
+  }));
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-        if (formData.paymentMethod === "card" && (!formData.cardNumber || !formData.expiryMonth || !formData.expiryYear || !formData.cvv)) {
-            alert("Please enter all card details!");
-            return;
-        }
+    if (
+      formData.paymentMethod === "card" &&
+      (!formData.cardNumber ||
+        !formData.expiryMonth ||
+        !formData.expiryYear ||
+        !formData.cvv)
+    ) {
+      alert("Please enter all card details!");
+      return;
+    }
 
-        const expiryDate = `${formData.expiryMonth}/${formData.expiryYear}`;
-        console.log("Expiry Date:", expiryDate);
+    const expiryDate = `${formData.expiryMonth}/${formData.expiryYear}`;
+    console.log("Expiry Date:", expiryDate);
 
-        alert("Order confirmed successfully!");
-        localStorage.removeItem("cart");
-        navigate("/home");
-    };
+    alert("Order confirmed successfully!");
+    localStorage.removeItem("cart");
+    navigate("/home");
+  };
 
-    return (
-        <Container>
-            <Row className="justify-content-center mt-5">
-                <Col xs={12} md={6} className="p-4 border rounded shadow">
-                    <div style={{
-                        maxWidth: "450px",
-                        margin: "auto",
-                        backgroundColor: "#ffffff",
-                        padding: "20px",
-                        borderRadius: "10px",
-                        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center"
-                    }}>
-                        <h2 style={{ textAlign: "center", color: "#007bff", marginBottom: "15px" }}>Order Details</h2>
+  return (
+    <Container>
+      <Row className="justify-content-center mt-5">
+        <Col xs={12} md={6} className="p-4 border rounded shadow">
+          <div
+            style={{
+              maxWidth: "200px",
+              margin: "auto",
+              backgroundColor: "#ffffff",
+              padding: "20px",
+              borderRadius: "10px",
+              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <h2
+              style={{
+                textAlign: "center",
+                color: "#007bff",
+                marginBottom: "15px",
+              }}
+            >
+              Order Details
+            </h2>
 
-                        <Form onSubmit={handleSubmit} style={{ width: "100%", display: "flex", flexDirection: "column", gap: "10px" }}>
+            <Form
+              onSubmit={handleSubmit}
+              style={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                gap: "10px",
+              }}
+            >
+              {/* Full Name */}
+              <Form.Group>
+                <Form.Label>
+                  <strong>Full Name</strong>
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
 
-                            {/* Full Name */}
-                            <Form.Group>
-                                <Form.Label><strong>Full Name</strong></Form.Label>
-                                <Form.Control type="text" name="name" value={formData.name} onChange={handleChange} required />
-                            </Form.Group>
+              {/* Email */}
+              <Form.Group>
+                <Form.Label>
+                  <strong>Email</strong>
+                </Form.Label>
+                <Form.Control
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
 
-                            {/* Email */}
-                            <Form.Group>
-                                <Form.Label><strong>Email</strong></Form.Label>
-                                <Form.Control type="email" name="email" value={formData.email} onChange={handleChange} required />
-                            </Form.Group>
+              {/* Phone */}
+              <Form.Group>
+                <Form.Label>
+                  <strong>Phone</strong>
+                </Form.Label>
+                <Form.Control
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
 
-                            {/* Phone */}
-                            <Form.Group>
-                                <Form.Label><strong>Phone</strong></Form.Label>
-                                <Form.Control type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
-                            </Form.Group>
+              {/* Address */}
+              <Form.Group>
+                <Form.Label>
+                  <strong>Street Address</strong>
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  name="street"
+                  value={formData.street}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
 
-                            {/* Address */}
-                            <Form.Group>
-                                <Form.Label><strong>Street Address</strong></Form.Label>
-                                <Form.Control type="text" name="street" value={formData.street} onChange={handleChange} required />
-                            </Form.Group>
-
-                            {/* State & Pincode */}
-                            <Row>
-                                <Col>
-                                    <Form.Group>
-                                        <Form.Label><strong>State</strong></Form.Label>
-                                        <Form.Select name="state" value={formData.state} onChange={handleChange} required>
-                                            <option value="">Select State</option>
-                                            {statesList.map((state, index) => (
-                                                <option key={index} value={state}>{state}</option>
-                                            ))}
-                                        </Form.Select>
-                                    </Form.Group>
-                                </Col>
-                                <Col>
-                                    <Form.Group>
-                                        <Form.Label><strong>Pincode</strong></Form.Label>
-                                        <Form.Control type="text" name="pincode" value={formData.pincode} onChange={handleChange} required />
-                                    </Form.Group>
-                                </Col>
-                            </Row>
-
-                            {/* Payment Method */}
-                            <Form.Group>
-                                <Form.Label><strong>Payment Method</strong></Form.Label>
-                                <Form.Select name="paymentMethod" value={formData.paymentMethod} onChange={handleChange}>
-                                    <option value="cod">Cash on Delivery</option>
-                                    <option value="card">Credit/Debit Card</option>
-                                </Form.Select>
-                            </Form.Group>
-
-                            {/* Card Payment Fields */}
-                            {formData.paymentMethod === "card" && (
-                                <>
-                                    <Form.Group>
-                                        <Form.Label><strong>Card Number</strong></Form.Label>
-                                        <Form.Control type="text" name="cardNumber" value={formData.cardNumber} onChange={handleChange} required />
-                                    </Form.Group>
-
-                                    {/* Expiry Date - Separate Dropdowns */}
-                                    <Row>
-                                        <Col>
-                                            <Form.Group>
-                                                <Form.Label><strong>Expiry Month</strong></Form.Label>
-                                                <Form.Select name="expiryMonth" value={formData.expiryMonth} onChange={handleChange} required>
-                                                    <option value="">MM</option>
-                                                    {months.map((month) => (
-                                                        <option key={month.value} value={month.value}>{month.label}</option>
-                                                    ))}
-                                                </Form.Select>
-                                            </Form.Group>
-                                        </Col>
-                                        <Col>
-                                            <Form.Group>
-                                                <Form.Label><strong>Expiry Year</strong></Form.Label>
-                                                <Form.Select name="expiryYear" value={formData.expiryYear} onChange={handleChange} required>
-                                                    <option value="">YYYY</option>
-                                                    {years.map((year) => (
-                                                        <option key={year.value} value={year.value}>{year.label}</option>
-                                                    ))}
-                                                </Form.Select>
-                                            </Form.Group>
-                                        </Col>
-                                    </Row>
-
-                                    <Form.Group>
-                                        <Form.Label><strong>CVV</strong></Form.Label>
-                                        <Form.Control type="number" name="cvv" value={formData.cvv} onChange={handleChange} required />
-                                    </Form.Group>
-                                </>
-                            )}
-
-                            <Button type="submit" style={{ width: "100%", fontWeight: "bold", backgroundColor: "#28a745", border: "none", borderRadius: "8px", marginTop: "10px" }}>
-                                Confirm Order
-                            </Button>
-                        </Form>
-                    </div>
+              {/* State & Pincode */}
+              <Row>
+                <Col>
+                  <Form.Group>
+                    <Form.Label>
+                      <strong>State</strong>
+                    </Form.Label>
+                    <Form.Select
+                      name="state"
+                      value={formData.state}
+                      onChange={handleChange}
+                      required
+                    >
+                      <option value="">Select State</option>
+                      {statesList.map((state, index) => (
+                        <option key={index} value={state}>
+                          {state}
+                        </option>
+                      ))}
+                    </Form.Select>
+                  </Form.Group>
                 </Col>
-            </Row>
-            <FooterEg />
-        </Container>
-    );
+                <Col>
+                  <Form.Group>
+                    <Form.Label>
+                      <strong>Pincode</strong>
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="pincode"
+                      value={formData.pincode}
+                      onChange={handleChange}
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              {/* Payment Method */}
+              <Form.Group>
+                <Form.Label>
+                  <strong>Payment Method</strong>
+                </Form.Label>
+                <Form.Select
+                  name="paymentMethod"
+                  value={formData.paymentMethod}
+                  onChange={handleChange}
+                >
+                  <option value="cod">Cash on Delivery</option>
+                  <option value="card">Credit/Debit Card</option>
+                </Form.Select>
+              </Form.Group>
+
+              {/* Card Payment Fields */}
+              {formData.paymentMethod === "card" && (
+                <>
+                  <Form.Group>
+                    <Form.Label>
+                      <strong>Card Number</strong>
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="cardNumber"
+                      value={formData.cardNumber}
+                      onChange={handleChange}
+                      required
+                    />
+                  </Form.Group>
+
+                  {/* Expiry Date - Separate Dropdowns */}
+                  <Row>
+                    <Col>
+                      <Form.Group>
+                        <Form.Label>
+                          <strong>Expiry Month</strong>
+                        </Form.Label>
+                        <Form.Select
+                          name="expiryMonth"
+                          value={formData.expiryMonth}
+                          onChange={handleChange}
+                          required
+                        >
+                          <option value="">MM</option>
+                          {months.map((month) => (
+                            <option key={month.value} value={month.value}>
+                              {month.label}
+                            </option>
+                          ))}
+                        </Form.Select>
+                      </Form.Group>
+                    </Col>
+                    <Col>
+                      <Form.Group>
+                        <Form.Label>
+                          <strong>Expiry Year</strong>
+                        </Form.Label>
+                        <Form.Select
+                          name="expiryYear"
+                          value={formData.expiryYear}
+                          onChange={handleChange}
+                          required
+                        >
+                          <option value="">YYYY</option>
+                          {years.map((year) => (
+                            <option key={year.value} value={year.value}>
+                              {year.label}
+                            </option>
+                          ))}
+                        </Form.Select>
+                      </Form.Group>
+                    </Col>
+                  </Row>
+
+                  <Form.Group>
+                    <Form.Label>
+                      <strong>CVV</strong>
+                    </Form.Label>
+                    <Form.Control
+                      type="number"
+                      name="cvv"
+                      value={formData.cvv}
+                      onChange={handleChange}
+                      required
+                    />
+                  </Form.Group>
+                </>
+              )}
+
+              <Button
+                type="submit"
+                style={{
+                  width: "100%",
+                  fontWeight: "bold",
+                  backgroundColor: "#28a745",
+                  border: "none",
+                  borderRadius: "8px",
+                  marginTop: "10px",
+                }}
+              >
+                Confirm Order
+              </Button>
+            </Form>
+          </div>
+        </Col>
+      </Row>
+      <FooterEg />
+    </Container>
+  );
 }
 
 export default OrderPage;
