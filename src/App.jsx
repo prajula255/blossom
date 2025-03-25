@@ -12,6 +12,9 @@ import NavEg from "./components/navbar";
 import ContactPage from "./pages/contact/contactPage";
 import OrderPage from "./pages/cart/orderPage";
 import FlowerDetails from "./pages/product/detailsPage";
+import ProfilePage from "./pages/profile/editProfile";
+import Wishlist from "./pages/product/wishList";
+import TrackOrder from "./pages/cart/trackOrder";
 
 function App() {
   return (
@@ -29,6 +32,9 @@ function App() {
           <Route path="/order" element={<OrderPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/account" element={<ProfilePage/>}/>
+          <Route path="/wishlist" element={<Wishlist/>}/>
+          <Route path="/track-order" element={<TrackOrder/>}/>
         </Routes>
       </BrowserRouter>
     </>

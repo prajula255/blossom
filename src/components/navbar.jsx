@@ -67,10 +67,10 @@ function NavEg() {
                     Track Order
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item as={Link} to="/signin">
+                  {/* <NavDropdown.Item as={Link} to="/signin">
                     Sign In
                   </NavDropdown.Item>
-                  <NavDropdown.Divider />
+                  <NavDropdown.Divider /> */}
                   <NavDropdown.Item as={Link} to="/logout">
                     Logout
                   </NavDropdown.Item>

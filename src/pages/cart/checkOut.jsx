@@ -19,6 +19,8 @@ function CheckoutPage() {
     (total, item) => total + item.price * item.quantity,
     0
   );
+  const deliveryCharge = 50;
+  const grandTotal = totalPrice + deliveryCharge;
 
   const handlePlaceOrder = () => {
     navigate("/order", { state: { cart } });
@@ -50,14 +52,12 @@ function CheckoutPage() {
                 marginBottom: "20px",
               }}
             >
-              <h3 className="text-center">My Orders</h3>
+              <h3 className="text-center">Order Summary</h3>
               <Table striped bordered hover className="text-center">
                 <thead>
                   <tr>
                     <th>Product</th>
                     <th>Name</th>
-                    <th>Qty</th>
-                    <th>Price</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -76,16 +76,13 @@ function CheckoutPage() {
                         />
                       </td>
                       <td>{item.name}</td>
-                      <td>{item.quantity}</td>
-                      <td>Rs.{item.price * item.quantity}</td>
                     </tr>
                   ))}
                 </tbody>
               </Table>
               <h4 className="text-center mt-3">
-                Total Price: <strong>Rs.{totalPrice}</strong>
+                Grand Total: <strong>Rs.{grandTotal}</strong>
               </h4>
-
               <Button
                 variant="success"
                 className="w-100 mt-3"
