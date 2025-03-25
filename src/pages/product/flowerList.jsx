@@ -22,6 +22,7 @@ function FlowersList() {
       name: "Wild Flower",
       price: 430,
       image: "/wi.jpg",
+      available: true,
     },
     {
       id: 2,
@@ -29,6 +30,7 @@ function FlowersList() {
       name: "Lilie Orchid",
       price: 450,
       image: "/liliorchid.jpg",
+      available: false,
     },
     {
       id: 3,
@@ -36,6 +38,7 @@ function FlowersList() {
       name: "Tulips Bouquet",
       price: 500,
       image: "/tul.jpg",
+      available: true,
     },
     {
       id: 4,
@@ -43,6 +46,7 @@ function FlowersList() {
       name: "White Rose",
       price: 850,
       image: "/white.jpg",
+      available: true,
     },
     {
       id: 5,
@@ -50,6 +54,7 @@ function FlowersList() {
       name: "Red Rose",
       price: 50,
       image: "/rosef.jpg",
+      available: false,
     },
     {
       id: 6,
@@ -57,6 +62,7 @@ function FlowersList() {
       name: "Dried Flower",
       price: 690,
       image: "/driedflo.jpg",
+      available: true,
     },
     {
       id: 7,
@@ -64,6 +70,7 @@ function FlowersList() {
       name: "Pink Money",
       price: 250,
       image: "/pink.jpg",
+      available: false,
     },
     {
       id: 8,
@@ -71,6 +78,7 @@ function FlowersList() {
       name: "Tulip Lavender",
       price: 550,
       image: "/tulav.jpg",
+      available: true,
     },
     {
       id: 9,
@@ -78,6 +86,7 @@ function FlowersList() {
       name: "Dianthus barbatus",
       price: 150,
       image: "/purple.jpg",
+      available: false,
     },
     {
       id: 10,
@@ -85,6 +94,7 @@ function FlowersList() {
       name: "Violet Dalia",
       price: 550,
       image: "/vilot.jpg",
+      available: true,
     },
     {
       id: 11,
@@ -92,6 +102,7 @@ function FlowersList() {
       name: "Marigold",
       price: 200,
       image: "/mari.jpg",
+      available: true,
     },
     {
       id: 12,
@@ -99,6 +110,7 @@ function FlowersList() {
       name: "Carnation flower",
       price: 700,
       image: "/carnation.jpg",
+      available: false,
     },
   ];
 
@@ -390,3 +402,156 @@ const styles = {
 };
 
 export default FlowersList;
+
+// import React, { useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { toast, ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css"; // Import styles
+
+// const flowers = [
+//   { id: 1, category: "Bouquet", name: "Wild Flower", price: 430, image: "/wi.jpg", available: true },
+//   { id: 2, category: "Bouquet", name: "Lilie Orchid", price: 450, image: "/liliorchid.jpg", available: false },
+//   { id: 3, category: "Bouquet", name: "Tulips Bouquet", price: 500, image: "/tul.jpg", available: true },
+//   { id: 4, category: "Bouquet", name: "White Rose", price: 850, image: "/white.jpg", available: false },
+//   { id: 5, category: "Flower", name: "Red Rose", price: 50, image: "/rosef.jpg", available: true },
+//   { id: 6, category: "Flower", name: "Dried Flower", price: 690, image: "/driedflo.jpg", available: true },
+//   { id: 7, category: "Bouquet", name: "Pink Money", price: 250, image: "/pink.jpg", available: false },
+//   { id: 8, category: "Flower", name: "Tulip Lavender", price: 550, image: "/tulav.jpg", available: true },
+// ];
+
+// const FlowerShop = () => {
+//   const navigate = useNavigate();
+//   const [wishlist, setWishlist] = useState([]);
+
+//   const toggleWishlist = (flower, event) => {
+//     event.stopPropagation();
+//     setWishlist((prevWishlist) =>
+//       prevWishlist.some((item) => item.id === flower.id)
+//         ? prevWishlist.filter((item) => item.id !== flower.id)
+//         : [...prevWishlist, flower]
+//     );
+
+//     const message = wishlist.some((item) => item.id === flower.id)
+//       ? `${flower.name} removed from wishlist`
+//       : `${flower.name} added to wishlist`;
+//     toast.info(message);
+//   };
+
+//   const addToCart = (flower, event) => {
+//     event.stopPropagation();
+//     toast.success(`${flower.name} added to cart!`);
+//   };
+
+//   return (
+//     <div style={{ display: "flex", flexWrap: "wrap", gap: "20px", justifyContent: "center", padding: "20px" }}>
+//       <ToastContainer position="top-right" autoClose={2000} />
+//       {flowers.map((flower) => (
+//         <div
+//           key={flower.id}
+//           style={{
+//             border: "1px solid #ddd",
+//             padding: "15px",
+//             borderRadius: "10px",
+//             width: "220px",
+//             textAlign: "center",
+//             boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+//             transition: "transform 0.2s",
+//             cursor: "pointer",
+//             backgroundColor: "#fff",
+//             position: "relative",
+//           }}
+//           onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+//           onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
+//         >
+//           <div style={{ position: "relative" }} onClick={() => navigate(`/flowerdetails/${flower.id}`)}>
+//             <img
+//               src={flower.image}
+//               alt={flower.name}
+//               style={{
+//                 width: "100%",
+//                 borderRadius: "10px",
+//                 height: "250px",
+//                 objectFit: "cover",
+//                 boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+//               }}
+//             />
+//             {/* Wishlist Icon */}
+//             <div
+//               style={{
+//                 position: "absolute",
+//                 top: "10px",
+//                 right: "10px",
+//                 cursor: "pointer",
+//                 backgroundColor: "rgba(255,255,255,0.8)",
+//                 borderRadius: "50%",
+//                 padding: "5px",
+//               }}
+//               onClick={(e) => toggleWishlist(flower, e)}
+//             >
+//               <svg
+//                 xmlns="http://www.w3.org/2000/svg"
+//                 fill={wishlist.some((item) => item.id === flower.id) ? "red" : "none"}
+//                 viewBox="0 0 24 24"
+//                 strokeWidth={1.5}
+//                 stroke="currentColor"
+//                 width="24px"
+//                 height="24px"
+//               >
+//                 <path
+//                   strokeLinecap="round"
+//                   strokeLinejoin="round"
+//                   d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+//                 />
+//               </svg>
+//             </div>
+
+//             {/* Cart Icon */}
+//             {flower.available && (
+//               <div
+//                 style={{
+//                   position: "absolute",
+//                   bottom: "10px",
+//                   right: "10px",
+//                   cursor: "pointer",
+//                   backgroundColor: "#28a745",
+//                   borderRadius: "50%",
+//                   padding: "5px",
+//                   transition: "background 0.2s",
+//                 }}
+//                 onClick={(e) => addToCart(flower, e)}
+//                 onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#218838")}
+//                 onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#28a745")}
+//               >
+//                 <svg
+//                   xmlns="http://www.w3.org/2000/svg"
+//                   fill="none"
+//                   viewBox="0 0 24 24"
+//                   strokeWidth={1.5}
+//                   stroke="white"
+//                   width="24px"
+//                   height="24px"
+//                 >
+//                   <path
+//                     strokeLinecap="round"
+//                     strokeLinejoin="round"
+//                     d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+//                   />
+//                 </svg>
+//               </div>
+//             )}
+//           </div>
+
+//           <div style={{ marginTop: "10px" }}>
+//             <span style={{ fontSize: "14px", color: "#777", display: "block" }}>{flower.category}</span>
+//             <span style={{ fontSize: "16px", fontWeight: "bold", display: "block", marginTop: "5px" }}>{flower.name}</span>
+//             <span style={{ fontSize: "14px", color: "#333", fontWeight: "bold", display: "block", marginTop: "5px" }}>
+//               Rs. {flower.price}
+//             </span>
+//           </div>
+//         </div>
+//       ))}
+//     </div>
+//   );
+// };
+
+// export default FlowerShop;
