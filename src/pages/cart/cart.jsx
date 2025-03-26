@@ -186,151 +186,80 @@ import { Button, Table, Container, Row, Col, Card } from "react-bootstrap";
 
 function CartPage() {
   const navigate = useNavigate();
+
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
   );
-  const [flowers, setFlowers] = useState([]);
-
-  useEffect(() => {
-    // Load flowers from localStorage or use initial values
-    const storedFlowers = JSON.parse(localStorage.getItem("flowers"));
-    if (storedFlowers) {
-      setFlowers(storedFlowers);
-    } else {
-      // Initialize with default flowers if not present
-      const initialFlowers = [
-        {
-          id: 1,
-          category: "Bouquet",
-          name: "Wild Flower",
-          price: 430,
-          image: "/wi.jpg",
-          stock: 10,
-        },
-        {
-          id: 2,
-          category: "Bouquet",
-          name: "Lilie Orchid",
-          price: 450,
-          image: "/liliorchid.jpg",
-          stock: 0,
-        },
-        {
-          id: 3,
-          category: "Bouquet",
-          name: "Tulips Bouquet",
-          price: 500,
-          image: "/tul.jpg",
-          stock: 5,
-        },
-        {
-          id: 4,
-          category: "Bouquet",
-          name: "White Rose",
-          price: 850,
-          image: "/white.jpg",
-          stock: 8,
-        },
-        {
-          id: 5,
-          category: "Flower",
-          name: "Red Rose",
-          price: 50,
-          image: "/rosef.jpg",
-          stock: 0,
-        },
-        {
-          id: 6,
-          category: "Flower",
-          name: "Dried Flower",
-          price: 690,
-          image: "/driedflo.jpg",
-          stock: 12,
-        },
-        {
-          id: 7,
-          category: "Bouquet",
-          name: "Pink Money",
-          price: 250,
-          image: "/pink.jpg",
-          stock: 3,
-        },
-        {
-          id: 8,
-          category: "Flower",
-          name: "Tulip Lavender",
-          price: 550,
-          image: "/tulav.jpg",
-          stock: 0,
-        },
-        {
-          id: 9,
-          category: "Flower",
-          name: "Dianthus barbatus",
-          price: 150,
-          image: "/purple.jpg",
-          stock: 19,
-        },
-        {
-          id: 10,
-          category: "Bouquet",
-          name: "Violet Dalia",
-          price: 550,
-          image: "/vilot.jpg",
-          stock: 5,
-        },
-        {
-          id: 11,
-          category: "Flower",
-          name: "Marigold",
-          price: 200,
-          image: "/mari.jpg",
-          stock: 0,
-        },
-        {
-          id: 12,
-          category: "Bouquet",
-          name: "Carnation flower",
-          price: 700,
-          image: "/carnation.jpg",
-          stock: 3,
-        },
-      ];
-      setFlowers(initialFlowers);
-      localStorage.setItem("flowers", JSON.stringify(initialFlowers));
-    }
-  }, []);
+  const [flowers, setFlowers] = useState(
+    JSON.parse(localStorage.getItem("flowers")) || []
+  );
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  const updateQuantity = (id, amount) => {
-    const newCart = cart.map((item) =>
-      item.id === id
-        ? { ...item, quantity: Math.max(1, item.quantity + amount) }
-        : item
+  useEffect(() => {
+    localStorage.setItem("flowers", JSON.stringify(flowers));
+  }, [flowers]);
+
+  // Function to add an item to cart and reduce stock
+  const addToCart = (item) => {
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((cartItem) => cartItem.id === item.id);
+      if (existingItem) {
+        return prevCart.map((cartItem) =>
+          cartItem.id === item.id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
+        );
+      } else {
+        return [...prevCart, { ...item, quantity: 1 }];
+      }
+    });
+
+    setFlowers((prevFlowers) =>
+      prevFlowers.map((flower) =>
+        flower.id === item.id ? { ...flower, stock: flower.stock - 1 } : flower
+      )
     );
-    setCart(newCart);
   };
 
-  const removeItem = (id) => {
-    const itemToRemove = cart.find((item) => item.id === id);
-    if (itemToRemove) {
-      // Restore stock for the removed item
-      const updatedFlowers = flowers.map((flower) => {
-        if (flower.id === itemToRemove.id) {
-          return { ...flower, stock: flower.stock + itemToRemove.quantity };
+  // Function to update quantity in cart
+  const updateQuantity = (id, amount) => {
+    setCart((prevCart) => {
+      return prevCart.map((item) => {
+        if (item.id === id) {
+          const newQuantity = Math.max(1, item.quantity + amount);
+          return { ...item, quantity: newQuantity };
+        }
+        return item;
+      });
+    });
+
+    setFlowers((prevFlowers) => {
+      return prevFlowers.map((flower) => {
+        if (flower.id === id) {
+          return { ...flower, stock: flower.stock - amount };
         }
         return flower;
       });
+    });
+  };
 
-      setFlowers(updatedFlowers);
-      localStorage.setItem("flowers", JSON.stringify(updatedFlowers)); // Update localStorage
+  // Function to remove item from cart and restore stock
+  const removeItem = (id) => {
+    const itemToRemove = cart.find((item) => item.id === id);
+    if (itemToRemove) {
+      setFlowers((prevFlowers) =>
+        prevFlowers.map((flower) =>
+          flower.id === id
+            ? { ...flower, stock: flower.stock + itemToRemove.quantity }
+            : flower
+        )
+      );
+
+      setCart(cart.filter((item) => item.id !== id));
     }
-
-    const newCart = cart.filter((item) => item.id !== id);
-    setCart(newCart);
   };
 
   const totalPrice = cart.reduce(
@@ -409,6 +338,7 @@ function CartPage() {
                             variant="outline-secondary"
                             size="sm"
                             onClick={() => updateQuantity(item.id, -1)}
+                            disabled={item.quantity <= 1}
                           >
                             -
                           </Button>
@@ -427,8 +357,19 @@ function CartPage() {
                           <Button
                             variant="outline-secondary"
                             size="sm"
-                            onClick={() => updateQuantity(item.id, 1)}
-                            disabled={item.stock <= item.quantity} // Disable if stock is less than or equal to quantity
+                            onClick={() => {
+                              const flowerStock =
+                                flowers.find((flower) => flower.id === item.id)
+                                  ?.stock || 0;
+                              if (item.quantity < flowerStock) {
+                                updateQuantity(item.id, 1);
+                              }
+                            }}
+                            disabled={
+                              item.quantity >=
+                              (flowers.find((flower) => flower.id === item.id)
+                                ?.stock || 0)
+                            }
                           >
                             +
                           </Button>
