@@ -70,6 +70,14 @@ function FooterEg() {
             Contact
           </Link>
         </p>
+        <p>
+          <Link
+            to="/feedback"
+            style={{ textDecoration: "none", color: "#343a40" }}
+          >
+            Feedback
+          </Link>
+        </p>
       </div>
 
       <div style={{ margin: "5px 0", flex: "1 1 200px", minWidth: "200px" }}>

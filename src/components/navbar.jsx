@@ -218,7 +218,11 @@ function NavEg() {
                 </div>
               </NavDropdown>
 
-              <Nav.Link as={Link} to="/cart" style={{ position: "relative" }}>
+              <Nav.Link
+                as={Link}
+                to="/cart"
+                style={{ position: "relative", display: "inline-block" }}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -229,7 +233,7 @@ function NavEg() {
                     width: "28px",
                     height: "28px",
                     cursor: "pointer",
-                    color: "black",
+                    color: "white",
                   }}
                 >
                   <path
@@ -242,14 +246,20 @@ function NavEg() {
                   <span
                     style={{
                       position: "absolute",
-                      top: "0px",
-                      right: "-20px",
+                      top: "-5px",
+                      right: "-10px", // Prevent overlap
                       background: "red",
-                      color: "black",
+                      color: "white",
                       borderRadius: "50%",
-                      padding: "4px 8px",
+                      width: "18px", // Fixed size to handle larger numbers
+                      height: "18px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                       fontSize: "12px",
                       fontWeight: "bold",
+                      boxShadow: "0 0 5px rgba(0,0,0,0.3)",
+                      zIndex: 10,
                     }}
                   >
                     {cartCount}
