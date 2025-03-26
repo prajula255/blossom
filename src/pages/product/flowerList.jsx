@@ -644,7 +644,7 @@ function FlowersList() {
                       style={styles.cartIcon}
                       onClick={(e) => addToCart(flower, e)}
                     >
-                      <FaShoppingCart size={22} color="black" />
+                      <FaShoppingCart size={22} color="white" />
                     </div>
                   ) : (
                     <span style={styles.outOfStockLabel}>Out of Stock</span>
@@ -665,7 +665,7 @@ function FlowersList() {
                   </span>
                   <br />
 
-                  <span
+                  {/* <span
                     style={{
                       fontSize: "14px",
                       color: flower.stock > 0 ? "#4CAF50" : "red",
@@ -674,7 +674,7 @@ function FlowersList() {
                     {flower.stock > 0
                       ? `In Stock: ${flower.stock}`
                       : "Out of Stock"}
-                  </span>
+                  </span> */}
                 </div>
               </div>
             ))
