@@ -408,7 +408,7 @@ import { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import FooterEg from "../../components/footer";
-import { FaShoppingCart, FaHeart } from "react-icons/fa";
+import { FaShoppingCart, FaHeart, FaStar } from "react-icons/fa";
 
 function FlowersList() {
   const navigate = useNavigate();
@@ -663,8 +663,14 @@ function FlowersList() {
                   <span style={styles.deliveryDate}>
                     Delivery Date: {getDefaultDate()}
                   </span>
-                  <br />
+                  {/* Rating Section */}
+                  <div style={styles.rating}>
+                    {[...Array(5)].map((_, index) => (
+                      <FaStar key={index} color={index < 4 ? "gold" : "#ddd"} />
+                    ))}
+                  </div>
 
+                  <br />
                   {/* <span
                     style={{
                       fontSize: "14px",
@@ -765,6 +771,12 @@ const styles = {
     padding: "5px",
     fontSize: "12px",
     borderRadius: "5px",
+  },
+  rating: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "5px",
+    color: "gold",
   },
 };
 

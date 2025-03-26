@@ -18,7 +18,7 @@ function FeedbackPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitted(true);
-    setTimeout(() => navigate("/home"), 3000); // Redirect to home after 3 seconds
+    setTimeout(() => navigate("/home"), 3000);
     setFormData({ name: "", email: "", message: "" });
   };
 

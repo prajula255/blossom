@@ -33,10 +33,10 @@ function App() {
           <Route path="/order" element={<OrderPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/account" element={<ProfilePage />} />
-          <Route path="/wishlist" element={<Wishlist />} />
-          <Route path="/track-order" element={<TrackOrder />} />
-          <Route path="/feedback" element={<FeedbackPage />} />
+          <Route path="/account" element={<ProfilePage/>}/>
+          <Route path="/wishlist" element={<Wishlist/>}/>
+          <Route path="/track-order" element={<TrackOrder/>}/>
+          <Route path="/feedback" element={<FeedbackPage/>}/>
         </Routes>
       </BrowserRouter>
     </>
