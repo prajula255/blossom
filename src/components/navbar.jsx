@@ -208,9 +208,13 @@ function NavEg() {
                     Track Order
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item as={Link} to="/logout">
-                    Logout
+                  <NavDropdown.Item as={Link} to="/feedback">
+                    Feedback
                   </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  {/* <NavDropdown.Item as={Link} to="/logout">
+                    Logout
+                  </NavDropdown.Item> */}
                 </div>
               </NavDropdown>
 
