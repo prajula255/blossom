@@ -16,6 +16,7 @@ import ProfilePage from "./pages/profile/editProfile";
 import Wishlist from "./pages/product/wishList";
 import TrackOrder from "./pages/cart/trackOrder";
 import FeedbackPage from "./pages/contact/feedback";
+import AdminPage from "./pages/admin/admin";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/order" element={<OrderPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/admin" element={<AdminPage/>}/>
           <Route path="/account" element={<ProfilePage/>}/>
           <Route path="/wishlist" element={<Wishlist/>}/>
           <Route path="/track-order" element={<TrackOrder/>}/>

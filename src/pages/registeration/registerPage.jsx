@@ -18,16 +18,38 @@ const RegisterPage = () => {
 
     const handleRegister = async (e) => {
         e.preventDefault();
-
+    
         if (!userCredentials.RegName || !userCredentials.RegEmail || !userCredentials.RegPassword) {
             alert("Please fill in all fields.");
             return;
         }
-
-        alert("Registration successful!");
-        console.log("Registered Data:", userCredentials);
+    
+        try {
+            const response = await fetch("http://localhost:3001/reg", { // Fixed API URL
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name: userCredentials.RegName,
+                    email: userCredentials.RegEmail,
+                    password: userCredentials.RegPassword 
+                }),
+            });
+    
+            const data = await response.json();
+            if (response.ok) {
+                alert("Registration successful!");
+                console.log("User registered:", data);
+            } else {
+                alert(data.message || "Registration failed.");
+            }
+        } catch (error) {
+            console.error("Error registering user:", error);
+            alert("Something went wrong.");
+        }
     };
-
+    
     return (
         <div
             style={{

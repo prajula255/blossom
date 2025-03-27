@@ -194,6 +194,10 @@ function NavEg() {
                 Contact
               </Nav.Link>
 
+              <Nav.Link as={Link} to="/admin" className="text-white">
+                Admin
+              </Nav.Link>
+
               <NavDropdown title="More" id="moreDropdown">
                 <div className="container-box p-3">
                   <NavDropdown.Item as={Link} to="/account">

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "axios"
 export const commonAPI = async (method, url, data, headers) => {
     const requestConfig = 
     {  method, 

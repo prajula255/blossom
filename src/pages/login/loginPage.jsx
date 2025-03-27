@@ -22,18 +22,46 @@ const LoginPage = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-
+    
+        console.log("User credentials before sending request:", userCredentials);
+    
         if (!userCredentials.loginEmail || !userCredentials.loginPassword) {
-            alert("Please fill in all fields.");
+            alert("Please enter both email and password.");
             return;
         }
-
-        alert("Login successful!");
-        console.log("Logged in with:", userCredentials);
-
-        navigate("/home");
+    
+        try {
+            const requestBody = {
+                email: userCredentials.loginEmail,  // Ensure field matches backend
+                password: userCredentials.loginPassword,
+            };
+    
+            console.log("Sending Login Request:", requestBody); // Log request body
+    
+            const response = await fetch("http://localhost:3001/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(requestBody),
+            });
+    
+            const data = await response.json();
+            console.log("Server Response:", data); // Log server response
+    
+            if (response.ok) {
+                alert("Login successful!");
+                localStorage.setItem("authToken", data.token);
+                navigate("/home")
+            } else {
+                alert(data.message || "Login failed.");
+            }
+        } catch (error) {
+            console.error("Error logging in:", error);
+            alert("Something went wrong.");
+        }
     };
-
+        
     return (
         <div className="login-page">
             <div className="login-overlay"></div>
