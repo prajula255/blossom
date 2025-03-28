@@ -142,6 +142,7 @@
 
 // export default Wishlist;
 
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
@@ -201,6 +202,7 @@ function Wishlist() {
       console.error("Error removing item from wishlist:", error);
     }
   };
+  console.log("Rendering Wishlist:", wishlist);
 
   return (
     <div style={styles.pageContainer}>

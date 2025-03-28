@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import FooterEg from "../../components/footer";
-
+import axios from "axios";
 function OrderPage() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -70,7 +70,7 @@ function OrderPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (
@@ -84,12 +84,32 @@ function OrderPage() {
       return;
     }
 
-    const expiryDate = `${formData.expiryMonth}/${formData.expiryYear}`;
-    console.log("Expiry Date:", expiryDate);
+    const orderData = {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      street: formData.street,
+      state: formData.state,
+      pincode: formData.pincode,
+      paymentMethod: formData.paymentMethod,
+      cartItems: cart, // Send cart data from state
+    };
 
-    alert("Order confirmed successfully!");
-    localStorage.removeItem("cart");
-    navigate("/home");
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/placeorder",
+        orderData
+      );
+
+      if (response.status === 201) {
+        alert("Order placed successfully!");
+        localStorage.removeItem("cart"); // Clear cart from local storage
+        navigate("/home");
+      }
+    } catch (error) {
+      console.error("Order placement failed:", error.response?.data || error);
+      alert("Failed to place order. Please try again.");
+    }
   };
 
   return (
