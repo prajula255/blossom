@@ -163,6 +163,8 @@ function Wishlist() {
       try {
         const response = await getWishlistAPI();
         if (response && response.data) {
+          console.log(response.data      );
+          
           setWishlist(response.data);
         } else {
           console.error("Invalid API response:", response);

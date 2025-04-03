@@ -9,9 +9,17 @@ function AdminPage() {
     category: "",
     name: "",
     price: "",
-    image: "",
+    image: [],
     stock: "",
   });
+
+const formData=new FormData()
+formData.append(newFlower.category)
+formData.append(newFlower.name)
+formData.append(newFlower.price)
+formData.append(newFlower.image)
+formData.append(newFlower.stock)
+  newFlower.
   const [stockUpdate, setStockUpdate] = useState({});
 
   useEffect(() => {
@@ -66,6 +74,23 @@ function AdminPage() {
     setStockUpdate({ ...stockUpdate, [id]: "" });
   };
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    setNewFlower((prev) => ({
+      ...prev,
+      image: file, // Store the file object instead of URL
+    }));
+  };
+
+  const handleRemoveImage = (index) => {
+    setNewFlower((prev) => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== index),
+    }));
+  };
+
   return (
     <div style={styles.pageContainer}>
       <div style={styles.container}>
@@ -96,13 +121,40 @@ function AdminPage() {
             style={styles.input}
           />
           <input
-            type="text"
-            name="image"
-            placeholder="Image URL"
-            value={newFlower.image}
-            onChange={handleChange}
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
             style={styles.input}
           />
+          {newFlower.images &&
+            newFlower.images.map((item, index) => (
+              <div
+                key={index}
+                style={{
+                  height: "100px",
+                  width: "100px",
+                  position: "relative",
+                }}
+              >
+                <img
+                  src={item.url}
+                  alt="img"
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    objectFit: "contain",
+                  }}
+                />
+                <span
+                  role="button"
+                  className="position-absolute p-1 bg-danger top-0 end-0"
+                  onClick={() => handleRemoveImage(index)}
+                >
+                  x
+                </span>
+              </div>
+            ))}
+
           <input
             type="number"
             name="stock"
