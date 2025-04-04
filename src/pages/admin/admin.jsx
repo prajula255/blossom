@@ -5,6 +5,7 @@ import FooterEg from "../../components/footer";
 import { addFlowerAPI } from "../../../api_services/allAPIs/adminAPI";
 import axios from "axios";
 import { baseURL } from "../../../api_services/baseURL";
+import { updateStockAPI } from "../../../api_services/allAPIs/updateAPI";
 
 function AdminPage() {
   const [flowers, setFlowers] = useState([]);
@@ -81,19 +82,32 @@ function AdminPage() {
     setStockUpdate({ ...stockUpdate, [id]: value });
   };
 
-  const updateStock = (id) => {
-    const updatedFlowers = flowers.map((flower) => {
-      if (flower.id === id) {
-        const newStock =
-          parseInt(flower.stock) + parseInt(stockUpdate[id] || 0);
-        return { ...flower, stock: newStock };
-      }
-      return flower;
-    });
-    setFlowers(updatedFlowers);
-    localStorage.setItem("flowers", JSON.stringify(updatedFlowers));
-    toast.success("Stock updated successfully!");
-    setStockUpdate({ ...stockUpdate, [id]: "" });
+  // const updateStock = (id) => {
+  //   const updatedFlowers = flowers.map((flower) => {
+  //     if (flower.id === id) {
+  //       const newStock =
+  //         parseInt(flower.stock) + parseInt(stockUpdate[id] || 0);
+  //       return { ...flower, stock: newStock };
+  //     }
+  //     return flower;
+  //   });
+  //   setFlowers(updatedFlowers);
+  //   localStorage.setItem("flowers", JSON.stringify(updatedFlowers));
+  //   toast.success("Stock updated successfully!");
+  //   setStockUpdate({ ...stockUpdate, [id]: "" });
+  // };
+
+  const updateStock = async (id) => {
+    try {
+      const updatedStock = stockUpdate[id];
+      await updateStockAPI(id, updatedStock);
+
+      toast.success("Stock updated successfully!");
+      setStockUpdate({ ...stockUpdate, [id]: "" });
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to update stock.");
+    }
   };
 
   const handleFileChange = (event) => {
