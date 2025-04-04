@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import FooterEg from "../../components/footer";
+import { addFlowerAPI } from "../../../api_services/allAPIs/adminAPI";
+import axios from "axios";
+import { baseURL } from "../../../api_services/baseURL";
 
 function AdminPage() {
   const [flowers, setFlowers] = useState([]);
@@ -9,42 +12,61 @@ function AdminPage() {
     category: "",
     name: "",
     price: "",
-    image: [],
+    images: [],
     stock: "",
   });
 
-const formData=new FormData()
-formData.append(newFlower.category)
-formData.append(newFlower.name)
-formData.append(newFlower.price)
-formData.append(newFlower.image)
-formData.append(newFlower.stock)
-  newFlower.
   const [stockUpdate, setStockUpdate] = useState({});
 
   useEffect(() => {
-    const storedFlowers = JSON.parse(localStorage.getItem("flowers")) || [];
-    setFlowers(storedFlowers);
+    const fetchFlower = async () => {
+      const response = await axios.get(`${baseURL}/getFlowers`);
+      setFlowers(response.data.flowers);
+    };
+
+    fetchFlower();
+
+    const interval = setInterval(() => {
+      fetchFlower();
+    }, 3000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const handleChange = (e) => {
     setNewFlower({ ...newFlower, [e.target.name]: e.target.value });
   };
 
-  const addFlower = () => {
+  const addFlower = async () => {
+    const token = localStorage.getItem("authToken");
     if (
       !newFlower.name ||
       !newFlower.price ||
-      !newFlower.image ||
+      !newFlower.images ||
       !newFlower.stock
     ) {
       toast.error("Please fill in all fields");
       return;
+    } else {
+      const formData = new FormData();
+      formData.append("category", newFlower.category);
+      formData.append("name", newFlower.name);
+      formData.append("price", newFlower.price);
+      formData.append("stock", newFlower.stock);
+      newFlower.images.forEach((image) => {
+        formData.append("images", image.file);
+      });
+      const reqHeader = {
+        "Content-Type": "multipart/form-data",
+        Authorization: `${token}`,
+      };
+      try {
+        const result = await addFlowerAPI(formData, reqHeader);
+        console.log("result", result);
+      } catch (error) {
+        console.error(error);
+      }
     }
-    const updatedFlowers = [...flowers, { ...newFlower, id: Date.now() }];
-    setFlowers(updatedFlowers);
-    localStorage.setItem("flowers", JSON.stringify(updatedFlowers));
-    setNewFlower({ category: "", name: "", price: "", image: "", stock: "" });
     toast.success("Flower added successfully!");
   };
 
@@ -75,12 +97,15 @@ formData.append(newFlower.stock)
   };
 
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
+    const images = Array.from(event.target.files);
+    const newImages = images.map((file) => ({
+      file,
+      url: URL.createObjectURL(file),
+    }));
 
     setNewFlower((prev) => ({
       ...prev,
-      image: file, // Store the file object instead of URL
+      images: newImages, // Store the file object instead of URL
     }));
   };
 
@@ -171,9 +196,9 @@ formData.append(newFlower.stock)
         <div style={styles.listContainer}>
           {flowers.length > 0 ? (
             flowers.map((flower) => (
-              <div key={flower.id} style={styles.card}>
+              <div key={flower._id} style={styles.card}>
                 <img
-                  src={flower.image}
+                  src={`${baseURL}${flower.image[0]}`}
                   alt={flower.name}
                   style={styles.image}
                 />
@@ -187,18 +212,20 @@ formData.append(newFlower.stock)
                 <input
                   type="number"
                   placeholder="Add Stock"
-                  value={stockUpdate[flower.id] || ""}
-                  onChange={(e) => handleStockChange(flower.id, e.target.value)}
+                  value={stockUpdate[flower._id] || ""}
+                  onChange={(e) =>
+                    handleStockChange(flower._id, e.target.value)
+                  }
                   style={styles.stockInput}
                 />
                 <button
-                  onClick={() => updateStock(flower.id)}
+                  onClick={() => updateStock(flower._id)}
                   style={styles.updateStockButton}
                 >
                   Update Stock
                 </button>
                 <button
-                  onClick={() => deleteFlower(flower.id)}
+                  onClick={() => deleteFlower(flower._id)}
                   style={styles.deleteButton}
                 >
                   Delete

@@ -1,5 +1,5 @@
-import { baseURL } from "../../api_services/allAPIs/baseURL";
-import { commonAPI } from "../../api_services/allAPIs/commonAPI";
+import { baseURL } from "../baseURL";
+import { commonAPI } from "../commonAPI";
 
 export const getWishlistAPI = async () => {
     return await commonAPI("get", `${baseURL}/wishlist`, {}, "");
