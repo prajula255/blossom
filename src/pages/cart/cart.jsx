@@ -258,7 +258,7 @@ function CartPage() {
                 </thead>
                 <tbody>
                   {cart.map((item) => (
-                    <tr key={item.id}>
+<tr key={item.productId || item._id}>
                       <td>
                         <Button
                           variant="light"

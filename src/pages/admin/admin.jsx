@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import FooterEg from "../../components/footer";
-import { addFlowerAPI } from "../../../api_services/allAPIs/adminAPI";
+import {
+  addFlowerAPI,
+  deleteFlowerAPI,
+} from "../../../api_services/allAPIs/adminAPI";
 import axios from "axios";
 import { baseURL } from "../../../api_services/baseURL";
 import { updateStockAPI } from "../../../api_services/allAPIs/updateAPI";
@@ -71,11 +74,25 @@ function AdminPage() {
     toast.success("Flower added successfully!");
   };
 
-  const deleteFlower = (id) => {
-    const updatedFlowers = flowers.filter((flower) => flower.id !== id);
-    setFlowers(updatedFlowers);
-    localStorage.setItem("flowers", JSON.stringify(updatedFlowers));
-    toast.info("Flower removed");
+  // const deleteFlower = (id) => {
+  //   const updatedFlowers = flowers.filter((flower) => flower.id !== id);
+  //   setFlowers(updatedFlowers);
+  //   localStorage.setItem("flowers", JSON.stringify(updatedFlowers));
+  //   toast.info("Flower removed");
+  // };
+  const deleteFlower = async (id) => {
+    try {
+      await deleteFlowerAPI(id); // Delete from backend
+
+      // Then update local state
+      const updatedFlowers = flowers.filter((flower) => flower._id !== id);
+      setFlowers(updatedFlowers);
+
+      toast.info("Flower deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting flower:", error);
+      toast.error("Failed to delete flower.");
+    }
   };
 
   const handleStockChange = (id, value) => {
@@ -293,11 +310,26 @@ const styles = {
   },
   input: {
     width: "100%",
-    padding: "10px",
-    fontSize: "16px",
-    border: "1px solid #ccc",
-    borderRadius: "5px",
+    padding: "12px 14px",
+    fontSize: "15px",
+    border: "1px solid #d1d5db", // subtle gray
+    borderRadius: "8px",
     outline: "none",
+    transition: "border-color 0.3s ease, box-shadow 0.3s ease",
+    backgroundColor: "#fafafa",
+    boxSizing: "border-box",
+  },
+  stockInput: {
+    width: "100%",
+    padding: "10px 12px",
+    fontSize: "15px",
+    border: "1px solid #d1d5db",
+    borderRadius: "8px",
+    backgroundColor: "#fafafa",
+    marginTop: "10px",
+    outline: "none",
+    transition: "border-color 0.3s ease, box-shadow 0.3s ease",
+    boxSizing: "border-box",
   },
   addButton: {
     gridColumn: "span 2",
@@ -335,14 +367,6 @@ const styles = {
   price: {
     fontWeight: "bold",
     color: "#007bff",
-  },
-  stockInput: {
-    width: "80%",
-    padding: "8px",
-    fontSize: "14px",
-    border: "1px solid #ccc",
-    borderRadius: "5px",
-    marginTop: "10px",
   },
   updateStockButton: {
     marginTop: "10px",
