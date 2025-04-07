@@ -91,12 +91,12 @@ function Wishlist() {
                   <span style={styles.name}>{flower.name}</span>
                   <span style={styles.price}>Rs. {flower.price}</span>
 
-                  <button
+                  {/* <button
                     style={styles.addButton}
                     onClick={() => handleAddToWishlist(flower)}
                   >
                     Add to Wishlist
-                  </button>
+                  </button> */}
 
                   <button
                     style={styles.removeButton}

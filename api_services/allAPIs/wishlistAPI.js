@@ -1,16 +1,14 @@
 import { baseURL } from "../baseURL";
 import { commonAPI } from "../commonAPI";
 
-const token = localStorage.getItem("authToken");
-
 export const getWishlistAPI = async () => {
-  return await commonAPI("get", `${baseURL}/wishlist`, {}, token);
+    return await commonAPI("get", `${baseURL}/wishlist`, {}, "");
 };
 
 export const addToWishlistAPI = async (data) => {
-  return await commonAPI("post", `${baseURL}/wishlist`, data, token);
+    return await commonAPI("post", `${baseURL}/wishlist`, data, "");
 };
 
 export const removeFromWishlistAPI = async (id) => {
-  return await commonAPI("delete", `${baseURL}/wishlist/${id}`, {}, token);
+    return await commonAPI("delete", `${baseURL}/wishlist/${id}`, {}, "");
 };
