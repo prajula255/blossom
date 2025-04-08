@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
@@ -6,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import FooterEg from "../../components/footer";
 import {
   getWishlistAPI,
-  addToWishlistAPI, 
+  addToWishlistAPI,
   removeFromWishlistAPI,
 } from "../../../api_services/allAPIs/wishlistAPI";
 
@@ -19,8 +18,8 @@ function Wishlist() {
       try {
         const response = await getWishlistAPI();
         if (response && response.data) {
-          console.log(response.data      );
-          
+          console.log(response.data);
+
           setWishlist(response.data);
         } else {
           console.error("Invalid API response:", response);
@@ -35,14 +34,14 @@ function Wishlist() {
 
   const removeFromWishlist = async (flowerId) => {
     try {
-      await removeFromWishlistAPI(flowerId); 
+      await removeFromWishlistAPI(flowerId);
       setWishlist((prev) => prev.filter((item) => item._id !== flowerId));
       toast.info("Removed from wishlist!");
     } catch (error) {
       console.error("Error removing item from wishlist:", error);
     }
   };
-  
+
   return (
     <div style={styles.pageContainer}>
       <div style={styles.content}>
@@ -56,7 +55,7 @@ function Wishlist() {
                   onClick={() => navigate(`/flowerdetails/${flower._id}`)}
                 >
                   <img
-                    src={flower.image}
+                    src={`http://localhost:3001${flower.image}`}
                     alt={flower.name}
                     style={styles.image}
                   />
@@ -115,9 +114,11 @@ const styles = {
   imageContainer: { cursor: "pointer" },
   image: {
     width: "100%",
-    height: "150px",
+    height: "180px", // slightly taller for better viewing
     objectFit: "cover",
     borderRadius: "8px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    transition: "transform 0.3s ease",
   },
   details: { marginTop: "10px" },
   name: { display: "block", fontWeight: "bold" },

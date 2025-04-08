@@ -177,7 +177,6 @@ function FlowersList() {
   );
 }
 
-// Your existing styles or updated styles go here
 const styles = {
   pageContainer: {
     padding: "20px",
