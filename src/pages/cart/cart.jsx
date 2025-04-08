@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import FooterEg from "../../components/footer";
@@ -10,44 +9,34 @@ function CartPage() {
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
   );
-  const [flowers, setFlowers] = useState(
-    JSON.parse(localStorage.getItem("flowers")) || []
-  );
+  const [flowers, setFlowers] = useState([]);
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
-    window.dispatchEvent(new Event("cartUpdated")); //  Notify other components
+    window.dispatchEvent(new Event("cartUpdated")); // Notify other components
   }, [cart]);
 
   useEffect(() => {
-    localStorage.setItem("flowers", JSON.stringify(flowers));
-  }, [flowers]);
+    const fetchFlowersFromCart = () => {
+      const flowerData = JSON.parse(localStorage.getItem("cart")) || [];
+      setFlowers(flowerData.map(f => ({
+        _id: f._id,
+        stock: f.stock || 0
+      })));
+    };
+    fetchFlowersFromCart();
+  }, []);
 
   const updateQuantity = (id, amount) => {
     setCart((prevCart) =>
       prevCart.map((item) =>
-        item.id === id ? { ...item, quantity: Math.max(1, item.quantity + amount) } : item
-      )
-    );
-
-    setFlowers((prevFlowers) =>
-      prevFlowers.map((flower) =>
-        flower.id === id ? { ...flower, stock: flower.stock - amount } : flower
+        item._id === id ? { ...item, quantity: Math.max(1, item.quantity + amount) } : item
       )
     );
   };
 
   const removeItem = (id) => {
-    const itemToRemove = cart.find((item) => item.id === id);
-    if (itemToRemove) {
-      setFlowers((prevFlowers) =>
-        prevFlowers.map((flower) =>
-          flower.id === id ? { ...flower, stock: flower.stock + itemToRemove.quantity } : flower
-        )
-      );
-
-      setCart(cart.filter((item) => item.id !== id));
-    }
+    setCart((prevCart) => prevCart.filter((item) => item._id !== id));
   };
 
   const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
@@ -77,79 +66,95 @@ function CartPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {cart.map((item) => (
-<tr key={item.productId || item._id}>
-                      <td>
-                        <Button
-                          variant="light"
-                          size="sm"
-                          onClick={() => removeItem(item.id)}
-                          className="border-0"
-                        >
-                          x
-                        </Button>
-                      </td>
-                      <td>
-                        <div className="d-flex align-items-center">
-                          <img
-                            src={item.image}
-                            alt={item.name}
-                            style={{
-                              width: "80px",
-                              height: "80px",
-                              objectFit: "cover",
-                              borderRadius: "8px",
-                              marginRight: "15px",
-                            }}
-                          />
-                        </div>
-                        <span style={{ color: "#ff5722", fontWeight: "bold" }}>
-                          {item.name}
-                        </span>
-                      </td>
-                      <td>
-                        <strong>Rs.{item.price.toFixed(2)}</strong>
-                      </td>
-                      <td>
-                        <div className="d-flex align-items-center justify-content-center">
+                  {cart.map((item) => {
+                    const flowerStock =
+                      flowers.find((flower) => flower._id === item._id)?.stock || 0;
+
+                    return (
+                      <tr key={item._id}>
+                        <td>
                           <Button
-                            variant="outline-secondary"
+                            variant="light"
                             size="sm"
-                            onClick={() => updateQuantity(item.id, -1)}
-                            disabled={item.quantity <= 1}
+                            onClick={() => removeItem(item._id)}
+                            className="border-0"
                           >
-                            -
+                            x
                           </Button>
-                          <span className="mx-2" style={{ minWidth: "40px", textAlign: "center", fontWeight: "bold" }}>
-                            {item.quantity}
+                        </td>
+                        <td>
+                          <div className="d-flex align-items-center">
+                            <img
+                              src={item.image[0]}
+                              alt={item.name}
+                              style={{
+                                width: "80px",
+                                height: "80px",
+                                objectFit: "cover",
+                                borderRadius: "8px",
+                                marginRight: "15px",
+                              }}
+                            />
+                          </div>
+                          <span style={{ color: "#ff5722", fontWeight: "bold" }}>
+                            {item.name}
                           </span>
-                          <Button
-                            variant="outline-secondary"
-                            size="sm"
-                            onClick={() => {
-                              const flowerStock = flowers.find((flower) => flower.id === item.id)?.stock || 0;
-                              if (item.quantity < flowerStock) {
-                                updateQuantity(item.id, 1);
-                              }
-                            }}
-                            disabled={item.quantity >= (flowers.find((flower) => flower.id === item.id)?.stock || 0)}
-                          >
-                            +
-                          </Button>
-                        </div>
-                      </td>
-                      <td>
-                        <strong>Rs.{(item.price * item.quantity).toFixed(2)}</strong>
-                      </td>
-                    </tr>
-                  ))}
+                        </td>
+                        <td>
+                          <strong>Rs.{item.price.toFixed(2)}</strong>
+                        </td>
+                        <td>
+                          <div className="d-flex align-items-center justify-content-center">
+                            <Button
+                              variant="outline-secondary"
+                              size="sm"
+                              onClick={() => updateQuantity(item._id, -1)}
+                              disabled={item.quantity <= 1}
+                            >
+                              -
+                            </Button>
+                            <span
+                              className="mx-2"
+                              style={{
+                                minWidth: "40px",
+                                textAlign: "center",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              {item.quantity}
+                            </span>
+                            <Button
+                              variant="outline-secondary"
+                              size="sm"
+                              onClick={() => {
+                                if (item.quantity < flowerStock) {
+                                  updateQuantity(item._id, 1);
+                                }
+                              }}
+                              disabled={item.quantity >= flowerStock}
+                            >
+                              +
+                            </Button>
+                          </div>
+                        </td>
+                        <td>
+                          <strong>
+                            Rs.{(item.price * item.quantity).toFixed(2)}
+                          </strong>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </Table>
             )}
           </Col>
 
           <Col md={4}>
-            <Card className="p-3 shadow-sm" style={{ backgroundColor: "#FFF4F2", borderRadius: "10px" }}>
+            <Card
+              className="p-3 shadow-sm"
+              style={{ backgroundColor: "#FFF4F2", borderRadius: "10px" }}
+            >
               <h4 className="mb-3">Cart Totals</h4>
               <div className="d-flex justify-content-between mt-2">
                 <span>Subtotal:</span>
@@ -164,7 +169,11 @@ function CartPage() {
                 <strong>Rs.{grandTotal.toFixed(2)}</strong>
               </div>
               <Button
-                style={{ backgroundColor: "#FF6F4F", border: "none", fontSize: "16px" }}
+                style={{
+                  backgroundColor: "#FF6F4F",
+                  border: "none",
+                  fontSize: "16px",
+                }}
                 className="w-100 py-2 mt-3"
                 onClick={() => navigate("/checkOut")}
               >
