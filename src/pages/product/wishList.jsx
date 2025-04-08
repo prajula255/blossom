@@ -33,31 +33,6 @@ function Wishlist() {
     fetchWishlist();
   }, []);
 
-  const handleAddToWishlist = async (flower) => {
-    const isInWishlist = wishlist.find((item) => item.name === flower.name);
-  
-    if (isInWishlist) {
-      toast.info("Already in wishlist!");
-      return;
-    }
-  
-    try {
-      const response = await addToWishlistAPI({
-        name: flower.name,
-        image: flower.image,
-        price: flower.price,
-      });
-  
-      if (response.status === 201) {
-        setWishlist((prev) => [...prev, response.data.item]);
-        toast.success("Added to wishlist!");
-      }
-    } catch (error) {
-      console.error("Error adding to wishlist:", error);
-      toast.error("Failed to add to wishlist.");
-    }
-  };
-  
   const removeFromWishlist = async (flowerId) => {
     try {
       await removeFromWishlistAPI(flowerId); 
@@ -91,12 +66,12 @@ function Wishlist() {
                   <span style={styles.name}>{flower.name}</span>
                   <span style={styles.price}>Rs. {flower.price}</span>
 
-                  {/* <button
+                  <button
                     style={styles.addButton}
                     onClick={() => handleAddToWishlist(flower)}
                   >
                     Add to Wishlist
-                  </button> */}
+                  </button>
 
                   <button
                     style={styles.removeButton}

@@ -52,6 +52,7 @@ const LoginPage = () => {
             if (response.ok) {
                 alert("Login successful!");
                 localStorage.setItem("authToken", data.token);
+                localStorage.setItem("userId",data.user.id)
                 navigate("/home")
             } else {
                 alert(data.message || "Login failed.");
