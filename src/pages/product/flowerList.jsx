@@ -7,6 +7,7 @@ import { FaShoppingCart, FaHeart } from "react-icons/fa";
 import axios from "axios";
 import { baseURL } from "../../../api_services/baseURL";
 import { addToWishlistAPI } from "../../../api_services/allAPIs/wishlistAPI";
+import { addToCartAPI } from "../../../api_services/allAPIs/cartAPI";
 
 function FlowersList() {
   const navigate = useNavigate();
@@ -34,24 +35,31 @@ function FlowersList() {
     fetchFlowers();
   }, []);
 
-  const addToCart = (flower, e) => {
+  const addToCart = async (flower, e) => {
     e.stopPropagation();
     if (flower.stock <= 0) return;
-
-    const updatedCart = [...cart];
-    const existing = updatedCart.find((item) => item._id === flower._id);
-
-    if (existing) {
-      existing.quantity += 1;
-    } else {
-      updatedCart.push({ ...flower, quantity: 1 });
+  
+    try {
+      const product = {
+        flowerId: flower._id,
+        name: flower.name,
+        image: flower.image[0], // backend expects a single image path
+        price: flower.price,
+        quantity: 1,
+        stock: flower.stock,
+      };
+  
+      const res = await addToCartAPI(product);
+  
+      if (res.status === 201 || res.status === 200) {
+        toast.success(`${flower.name} added to cart!`);
+      }
+    } catch (error) {
+      console.error("Add to cart failed:", error);
+      toast.error("Failed to add to cart. Make sure you're logged in.");
     }
-
-    setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-    toast.success(`${flower.name} added to cart!`);
   };
-
+  
   const handleAddToWishlist = async (flower) => {
     // const isInWishlist = wishlist.find((item) => item.name === flower.name);
 

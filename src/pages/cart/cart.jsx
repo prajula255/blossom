@@ -1,191 +1,139 @@
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import FooterEg from "../../components/footer";
-import { Button, Table, Container, Row, Col, Card } from "react-bootstrap";
+import {
+  getCartAPI,
+  removeFromCartAPI,
+  updateCartItemAPI,
+} from "../../../api_services/allAPIs/cartAPI";
+import { baseURL } from "../../../api_services/baseURL";
 
-function CartPage() {
+const CartPage = () => {
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const [cart, setCart] = useState(
-    JSON.parse(localStorage.getItem("cart")) || []
-  );
-  const [flowers, setFlowers] = useState([]);
+  const fetchCart = async () => {
+    try {
+      setLoading(true);
+      const res = await getCartAPI();
+      setCartItems(res.data);
+    } catch (err) {
+      toast.error("Failed to fetch cart");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-    window.dispatchEvent(new Event("cartUpdated")); // Notify other components
-  }, [cart]);
-
-  useEffect(() => {
-    const fetchFlowersFromCart = () => {
-      const flowerData = JSON.parse(localStorage.getItem("cart")) || [];
-      setFlowers(flowerData.map(f => ({
-        _id: f._id,
-        stock: f.stock || 0
-      })));
-    };
-    fetchFlowersFromCart();
+    fetchCart();
   }, []);
 
-  const updateQuantity = (id, amount) => {
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item._id === id ? { ...item, quantity: Math.max(1, item.quantity + amount) } : item
-      )
-    );
+  const handleQuantityChange = async (id, quantity) => {
+    if (quantity < 1) {
+      toast.warn("Quantity must be at least 1");
+      return;
+    }
+
+    try {
+      await updateCartItemAPI(id, quantity);
+      toast.success("Quantity updated");
+      fetchCart();
+    } catch (err) {
+      toast.error("Failed to update quantity");
+    }
   };
 
-  const removeItem = (id) => {
-    setCart((prevCart) => prevCart.filter((item) => item._id !== id));
+  const handleRemove = async (id) => {
+    try {
+      await removeFromCartAPI(id);
+      toast.success("Item removed");
+      fetchCart();
+    } catch (err) {
+      toast.error("Failed to remove item");
+    }
   };
 
-  const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
-  const deliveryCharge = cart.length > 0 ? 50 : 0;
-  const grandTotal = totalPrice + deliveryCharge;
+  const totalAmount = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
+  if (loading)
+    return <p className="text-center text-lg font-medium">Loading cart...</p>;
 
   return (
-    <>
-      <Container className="py-5">
-        <Row>
-          <Col md={8}>
-            <h3 className="mb-4">Shopping Cart</h3>
-            {cart.length === 0 ? (
-              <p>
-                Your cart is empty.{" "}
-                <Button onClick={() => navigate("/shop")}>Shop Now</Button>
-              </p>
-            ) : (
-              <Table bordered responsive className="text-center">
-                <thead style={{ backgroundColor: "#FFF4F2" }}>
-                  <tr>
-                    <th></th>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Subtotal</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {cart.map((item) => {
-                    const flowerStock =
-                      flowers.find((flower) => flower._id === item._id)?.stock || 0;
-
-                    return (
-                      <tr key={item._id}>
-                        <td>
-                          <Button
-                            variant="light"
-                            size="sm"
-                            onClick={() => removeItem(item._id)}
-                            className="border-0"
-                          >
-                            x
-                          </Button>
-                        </td>
-                        <td>
-                          <div className="d-flex align-items-center">
-                            <img
-                              src={item.image[0]}
-                              alt={item.name}
-                              style={{
-                                width: "80px",
-                                height: "80px",
-                                objectFit: "cover",
-                                borderRadius: "8px",
-                                marginRight: "15px",
-                              }}
-                            />
-                          </div>
-                          <span style={{ color: "#ff5722", fontWeight: "bold" }}>
-                            {item.name}
-                          </span>
-                        </td>
-                        <td>
-                          <strong>Rs.{item.price.toFixed(2)}</strong>
-                        </td>
-                        <td>
-                          <div className="d-flex align-items-center justify-content-center">
-                            <Button
-                              variant="outline-secondary"
-                              size="sm"
-                              onClick={() => updateQuantity(item._id, -1)}
-                              disabled={item.quantity <= 1}
-                            >
-                              -
-                            </Button>
-                            <span
-                              className="mx-2"
-                              style={{
-                                minWidth: "40px",
-                                textAlign: "center",
-                                fontWeight: "bold",
-                              }}
-                            >
-                              {item.quantity}
-                            </span>
-                            <Button
-                              variant="outline-secondary"
-                              size="sm"
-                              onClick={() => {
-                                if (item.quantity < flowerStock) {
-                                  updateQuantity(item._id, 1);
-                                }
-                              }}
-                              disabled={item.quantity >= flowerStock}
-                            >
-                              +
-                            </Button>
-                          </div>
-                        </td>
-                        <td>
-                          <strong>
-                            Rs.{(item.price * item.quantity).toFixed(2)}
-                          </strong>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </Table>
-            )}
-          </Col>
-
-          <Col md={4}>
-            <Card
-              className="p-3 shadow-sm"
-              style={{ backgroundColor: "#FFF4F2", borderRadius: "10px" }}
-            >
-              <h4 className="mb-3">Cart Totals</h4>
-              <div className="d-flex justify-content-between mt-2">
-                <span>Subtotal:</span>
-                <strong>Rs.{totalPrice.toFixed(2)}</strong>
-              </div>
-              <div className="d-flex justify-content-between mt-2">
-                <span>Delivery Charge:</span>
-                <strong>Rs.{deliveryCharge.toFixed(2)}</strong>
-              </div>
-              <div className="d-flex justify-content-between mt-2">
-                <span>Grand Total:</span>
-                <strong>Rs.{grandTotal.toFixed(2)}</strong>
-              </div>
-              <Button
-                style={{
-                  backgroundColor: "#FF6F4F",
-                  border: "none",
-                  fontSize: "16px",
-                }}
-                className="w-100 py-2 mt-3"
-                onClick={() => navigate("/checkOut")}
+    <div className="max-w-4xl mx-auto px-4 py-6">
+      <h2 className="text-2xl font-bold mb-6">Your Cart</h2>
+      {cartItems.length === 0 ? (
+        <p className="text-gray-600">No items in cart.</p>
+      ) : (
+        <>
+          <div className="space-y-6">
+            {cartItems.map((item) => (
+              <div
+                key={item._id}
+                className="flex flex-col md:flex-row gap-4 items-center border rounded-xl p-4 shadow-sm bg-white"
               >
-                PROCEED TO CHECKOUT
-              </Button>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-      <FooterEg />
-    </>
+                <img
+                  src={`${baseURL}${item.image}`}
+                  alt={item.name}
+                  className="w-28 h-28 object-cover rounded-xl shadow-md"
+                />
+                <div className="flex-1 w-full">
+                  <div className="flex justify-between">
+                    <h4 className="text-lg font-semibold">{item.name}</h4>
+                    <p className="text-sm text-gray-500">Stock: {item.stock}</p>
+                  </div>
+                  <p className="text-gray-700 mb-2">Price: ₹{item.price}</p>
+                  <div className="flex items-center gap-2 mb-3">
+                    <button
+                      onClick={() =>
+                        handleQuantityChange(item._id, item.quantity - 1)
+                      }
+                      className="px-3 py-1 bg-gray-200 rounded text-lg"
+                    >
+                      -
+                    </button>
+                    <span className="font-semibold">{item.quantity}</span>
+                    <button
+                      onClick={() =>
+                        item.quantity < item.stock
+                          ? handleQuantityChange(item._id, item.quantity + 1)
+                          : toast.warning("Reached max stock")
+                      }
+                      className="px-3 py-1 bg-gray-200 rounded text-lg"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <button
+                    onClick={() => handleRemove(item._id)}
+                    className="text-sm bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Total and Checkout */}
+          <div className="mt-8 border-t pt-4 flex flex-col sm:flex-row justify-between items-center">
+            <p className="text-xl font-semibold mb-4 sm:mb-0">
+              Total: ₹{totalAmount}
+            </p>
+            <button
+              onClick={() => navigate("/checkout")}
+              className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition"
+            >
+              Proceed to Checkout
+            </button>
+          </div>
+        </>
+      )}
+    </div>
   );
-}
+};
 
 export default CartPage;

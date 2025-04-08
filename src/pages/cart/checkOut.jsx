@@ -2,18 +2,32 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import FooterEg from "../../components/footer";
 import { Button, Table, Container, Row, Col } from "react-bootstrap";
+import { toast } from "react-toastify";
+import { getCartAPI } from "../../../api_services/allAPIs/cartAPI";
+import { baseURL } from "../../../api_services/baseURL";
 
 function CheckoutPage() {
   const navigate = useNavigate();
-  const [cart, setCart] = useState(
-    JSON.parse(localStorage.getItem("cart")) || []
-  );
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    if (cart.length === 0) {
-      navigate("/cart");
-    }
-  }, [cart, navigate]);
+    const fetchCart = async () => {
+      try {
+        const res = await getCartAPI();
+        setCart(res.data);
+
+        if (res.data.length === 0) {
+          toast.warning("Cart is empty, redirecting...");
+          navigate("/cart");
+        }
+      } catch (err) {
+        toast.error("Failed to load cart");
+        navigate("/cart");
+      }
+    };
+
+    fetchCart();
+  }, [navigate]);
 
   const totalPrice = cart.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -58,14 +72,16 @@ function CheckoutPage() {
                   <tr>
                     <th>Product</th>
                     <th>Name</th>
+                    <th>Qty</th>
+                    <th>Price</th>
                   </tr>
                 </thead>
                 <tbody>
                   {cart.map((item) => (
-                    <tr key={item.id}>
+                    <tr key={item._id}>
                       <td>
                         <img
-                          src={item.image}
+                          src={`${baseURL}${item.image}`}
                           alt={item.name}
                           style={{
                             width: "50px",
@@ -76,12 +92,16 @@ function CheckoutPage() {
                         />
                       </td>
                       <td>{item.name}</td>
+                      <td>{item.quantity}</td>
+                      <td>₹{item.price * item.quantity}</td>
                     </tr>
                   ))}
                 </tbody>
               </Table>
-              <h4 className="text-center mt-3">
-                Grand Total: <strong>Rs.{grandTotal}</strong>
+              <h5 className="text-center mt-3">Items Total: ₹{totalPrice}</h5>
+              <h5 className="text-center">Delivery: ₹{deliveryCharge}</h5>
+              <h4 className="text-center mt-2">
+                <strong>Grand Total: ₹{grandTotal}</strong>
               </h4>
               <Button
                 variant="success"
