@@ -1,22 +1,25 @@
-
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { NavDropdown } from "react-bootstrap";
+import { getCartAPI } from "../../api_services/allAPIs/cartAPI";
 
 function NavEg() {
   const navigate = useNavigate();
   const location = useLocation(); // Get the current route
   const [cartCount, setCartCount] = useState(0);
 
-  const updateCartCount = () => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
-    setCartCount(totalItems);
+  const updateCartCount = async () => {
+    try {
+      const res = await getCartAPI();
+      const totalItems = res.data.reduce((acc, item) => acc + item.quantity, 0);
+      setCartCount(totalItems);
+    } catch (err) {
+      console.error("Failed to fetch cart count");
+    }
   };
-
   useEffect(() => {
     updateCartCount();
   }, []);

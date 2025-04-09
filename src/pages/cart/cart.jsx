@@ -60,56 +60,121 @@ const CartPage = () => {
   );
 
   if (loading)
-    return <p className="text-center text-lg font-medium">Loading cart...</p>;
+    return (
+      <p style={{ textAlign: "center", fontSize: "1.125rem", fontWeight: "500" }}>
+        Loading cart...
+      </p>
+    );
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6">
-      <h2 className="text-2xl font-bold mb-6">Your Cart</h2>
+    <div style={{ maxWidth: "900px", margin: "0 auto", padding: "24px 16px" }}>
+      <h2 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "24px" }}>
+        Your Cart
+      </h2>
+
       {cartItems.length === 0 ? (
-        <p className="text-gray-600">No items in cart.</p>
+        <p style={{ color: "#4B5563" }}>No items in cart.</p>
       ) : (
         <>
-          <div className="space-y-6">
+          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
             {cartItems.map((item) => (
               <div
                 key={item._id}
-                className="flex flex-col md:flex-row gap-4 items-center border rounded-xl p-4 shadow-sm bg-white"
+                style={{
+                  display: "flex",
+                  flexDirection: window.innerWidth < 768 ? "column" : "row",
+                  gap: "16px",
+                  alignItems: "center",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: "12px",
+                  padding: "16px",
+                  boxShadow: "0 1px 2px rgba(0,0,0,0.1)",
+                  backgroundColor: "#fff",
+                }}
               >
                 <img
                   src={`${baseURL}${item.image}`}
                   alt={item.name}
-                  className="w-28 h-28 object-cover rounded-xl shadow-md"
+                  style={{
+                    width: "112px",
+                    height: "112px",
+                    objectFit: "cover",
+                    borderRadius: "12px",
+                    boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+                    border: "1px solid #ddd",
+                  }}
                 />
-                <div className="flex-1 w-full">
-                  <div className="flex justify-between">
-                    <h4 className="text-lg font-semibold">{item.name}</h4>
-                    <p className="text-sm text-gray-500">Stock: {item.stock}</p>
+                <div style={{ flex: 1, width: "100%" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "flex-start",
+                    }}
+                  >
+                    <h4 style={{ fontSize: "1.125rem", fontWeight: "600" }}>
+                      {item.name}
+                    </h4>
+                    <p style={{ fontSize: "0.875rem", color: "#6B7280" ,display: "none"}}>
+                      Stock: {item.stock}
+                    </p>
                   </div>
-                  <p className="text-gray-700 mb-2">Price: ₹{item.price}</p>
-                  <div className="flex items-center gap-2 mb-3">
+                  <p style={{ color: "#374151", marginBottom: "8px" }}>
+                    Price: ₹{item.price}
+                  </p>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      marginBottom: "12px",
+                    }}
+                  >
                     <button
                       onClick={() =>
                         handleQuantityChange(item._id, item.quantity - 1)
                       }
-                      className="px-3 py-1 bg-gray-200 rounded text-lg"
+                      style={{
+                        padding: "4px 12px",
+                        backgroundColor: "#e5e7eb",
+                        borderRadius: "6px",
+                        fontSize: "1.125rem",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                      }}
                     >
                       -
                     </button>
-                    <span className="font-semibold">{item.quantity}</span>
+                    <span style={{ fontWeight: "600" }}>{item.quantity}</span>
                     <button
                       onClick={() =>
                         item.quantity < item.stock
                           ? handleQuantityChange(item._id, item.quantity + 1)
                           : toast.warning("Reached max stock")
                       }
-                      className="px-3 py-1 bg-gray-200 rounded text-lg"
+                      style={{
+                        padding: "4px 12px",
+                        backgroundColor: "#e5e7eb",
+                        borderRadius: "6px",
+                        fontSize: "1.125rem",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                      }}
                     >
                       +
                     </button>
                   </div>
                   <button
                     onClick={() => handleRemove(item._id)}
-                    className="text-sm bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+                    style={{
+                      fontSize: "0.875rem",
+                      backgroundColor: "#EF4444",
+                      color: "#fff",
+                      padding: "8px 16px",
+                      borderRadius: "6px",
+                      border: "none",
+                      cursor: "pointer",
+                    }}
                   >
                     Remove
                   </button>
@@ -119,13 +184,32 @@ const CartPage = () => {
           </div>
 
           {/* Total and Checkout */}
-          <div className="mt-8 border-t pt-4 flex flex-col sm:flex-row justify-between items-center">
-            <p className="text-xl font-semibold mb-4 sm:mb-0">
+          <div
+            style={{
+              marginTop: "32px",
+              paddingTop: "16px",
+              borderTop: "1px solid #e5e7eb",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "16px",
+              justifyContent: "space-between",
+            }}
+          >
+            <p style={{ fontSize: "1.25rem", fontWeight: "600" }}>
               Total: ₹{totalAmount}
             </p>
             <button
               onClick={() => navigate("/checkout")}
-              className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition"
+              style={{
+                backgroundColor: "#16A34A",
+                color: "#fff",
+                padding: "10px 24px",
+                borderRadius: "6px",
+                fontSize: "1rem",
+                cursor: "pointer",
+                border: "none",
+              }}
             >
               Proceed to Checkout
             </button>
