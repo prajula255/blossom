@@ -61,14 +61,18 @@ const CartPage = () => {
 
   if (loading)
     return (
-      <p style={{ textAlign: "center", fontSize: "1.125rem", fontWeight: "500" }}>
+      <p
+        style={{ textAlign: "center", fontSize: "1.125rem", fontWeight: "500" }}
+      >
         Loading cart...
       </p>
     );
 
   return (
     <div style={{ maxWidth: "900px", margin: "0 auto", padding: "24px 16px" }}>
-      <h2 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "24px" }}>
+      <h2
+        style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "24px" }}
+      >
         Your Cart
       </h2>
 
@@ -76,7 +80,9 @@ const CartPage = () => {
         <p style={{ color: "#4B5563" }}>No items in cart.</p>
       ) : (
         <>
-          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "24px" }}
+          >
             {cartItems.map((item) => (
               <div
                 key={item._id}
@@ -115,7 +121,13 @@ const CartPage = () => {
                     <h4 style={{ fontSize: "1.125rem", fontWeight: "600" }}>
                       {item.name}
                     </h4>
-                    <p style={{ fontSize: "0.875rem", color: "#6B7280" ,display: "none"}}>
+                    <p
+                      style={{
+                        fontSize: "0.875rem",
+                        color: "#6B7280",
+                        display: "none",
+                      }}
+                    >
                       Stock: {item.stock}
                     </p>
                   </div>

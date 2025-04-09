@@ -36,3 +36,4 @@ export const removeFromCartAPI = async (id) => {
     Authorization: token,
   });
 };
+

@@ -72,9 +72,9 @@ function NavEg() {
                 Contact
               </Nav.Link>
 
-              <Nav.Link as={Link} to="/admin" className="text-white">
+              {/* <Nav.Link as={Link} to="/admin" className="text-white">
                 Admin
-              </Nav.Link>
+              </Nav.Link> */}
 
               <NavDropdown title="More" id="moreDropdown">
                 <div className="container-box p-3">
@@ -94,9 +94,9 @@ function NavEg() {
                     Feedback
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
-                  {/* <NavDropdown.Item as={Link} to="/logout">
+                  <NavDropdown.Item as={Link} to="/logout">
                     Logout
-                  </NavDropdown.Item> */}
+                  </NavDropdown.Item>
                 </div>
               </NavDropdown>
 

@@ -17,6 +17,9 @@ import Wishlist from "./pages/product/wishList";
 import TrackOrder from "./pages/cart/trackOrder";
 import FeedbackPage from "./pages/contact/feedback";
 import AdminPage from "./pages/admin/admin";
+import LogoutPage from "./pages/logOut/logOutPage";
+import AdminLogin from "./pages/admin/adminLogin";
+import LoginSelectionPage from "./pages/login/loginLayout";
 
 function App() {
   return (
@@ -24,7 +27,8 @@ function App() {
       <BrowserRouter>
         <NavEg />
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/" element={<LoginSelectionPage />} />
+          <Route path="/user-login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/shop" element={<FlowersList />} />
@@ -34,11 +38,13 @@ function App() {
           <Route path="/order" element={<OrderPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/admin" element={<AdminPage/>}/>
-          <Route path="/account" element={<ProfilePage/>}/>
-          <Route path="/wishlist" element={<Wishlist/>}/>
-          <Route path="/track-order" element={<TrackOrder/>}/>
-          <Route path="/feedback" element={<FeedbackPage/>}/>
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin-login" element={<AdminLogin />} />
+          <Route path="/account" element={<ProfilePage />} />
+          <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/track-order" element={<TrackOrder />} />
+          <Route path="/feedback" element={<FeedbackPage />} />
+          <Route path="/logout" element={<LogoutPage />} />
         </Routes>
       </BrowserRouter>
     </>

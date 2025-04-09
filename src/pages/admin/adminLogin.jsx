@@ -1,46 +1,33 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
 import { baseURL } from "../../../api_services/baseURL";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
-function AdminLogin() {
+const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post(`${baseURL}/admin/login`, { email, password }, { withCredentials: true });
-
-      if (res.data && res.data.role === "admin") {
-        localStorage.setItem("authToken", res.data.token);
-        localStorage.setItem("userRole", "admin");
-        toast.success("Admin login successful!");
-        navigate("/admin"); // redirect to AdminPage
-      } else {
-        toast.error("Access denied: Not an admin");
-      }
+      const res = await axios.post(`${baseURL}/admin-login`, { email, password });
+      localStorage.setItem("authToken", res.data.token);
+      toast.success("Login successful");
+      navigate("/admin");
     } catch (err) {
-      console.error(err);
-      toast.error("Login failed");
+      toast.error(err.response?.data?.message || "Login failed");
     }
   };
 
   return (
-    <div style={{ padding: "40px", maxWidth: "400px", margin: "auto" }}>
+    <div>
       <h2>Admin Login</h2>
-      <input type="email" placeholder="Email" value={email}
-        onChange={(e) => setEmail(e.target.value)} style={{ width: "100%", padding: "10px", margin: "10px 0" }} />
-      <input type="password" placeholder="Password" value={password}
-        onChange={(e) => setPassword(e.target.value)} style={{ width: "100%", padding: "10px", margin: "10px 0" }} />
-      <button onClick={handleLogin} style={{ width: "100%", padding: "10px", backgroundColor: "green", color: "#fff" }}>
-        Login
-      </button>
-      <ToastContainer />
+      <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+      <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+      <button onClick={handleLogin}>Login</button>
     </div>
   );
-}
+};
 
 export default AdminLogin;

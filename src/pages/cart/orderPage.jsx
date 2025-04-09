@@ -1,12 +1,18 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import FooterEg from "../../components/footer";
 import axios from "axios";
+import { clearCartAPI } from "../../../api_services/allAPIs/clearCartAPI";
 function OrderPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const cart = location.state?.cart || [];
+
+  const userId = localStorage.getItem("userId");
+  useEffect(() => {
+    console.log(userId);
+  }, [userId]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -102,6 +108,15 @@ function OrderPage() {
       );
 
       if (response.status === 201) {
+        const reqBody = {
+          userId: userId,
+        };
+        try {
+          const res = await clearCartAPI(reqBody);
+          console.log("cleared", res);
+        } catch (error) {
+          console.error(error);
+        }
         alert("Order placed successfully!");
         localStorage.removeItem("cart"); // Clear cart from local storage
         navigate("/home");
