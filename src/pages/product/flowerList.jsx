@@ -38,7 +38,7 @@ function FlowersList() {
   const addToCart = async (flower, e) => {
     e.stopPropagation();
     if (flower.stock <= 0) return;
-  
+
     try {
       const product = {
         flowerId: flower._id,
@@ -48,9 +48,9 @@ function FlowersList() {
         quantity: 1,
         stock: flower.stock,
       };
-  
+
       const res = await addToCartAPI(product);
-  
+
       if (res.status === 201 || res.status === 200) {
         toast.success(`${flower.name} added to cart!`);
       }
@@ -59,7 +59,7 @@ function FlowersList() {
       toast.error("Failed to add to cart. Make sure you're logged in.");
     }
   };
-  
+
   const handleAddToWishlist = async (flower) => {
     // const isInWishlist = wishlist.find((item) => item.name === flower.name);
 

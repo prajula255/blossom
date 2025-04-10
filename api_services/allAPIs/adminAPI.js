@@ -15,3 +15,19 @@ export const deleteFlowerAPI = async (id) => {
 
   return await commonAPI("delete", `${baseURL}/deleteFlower/${id}`, {}, headers);
 };
+
+export const getAllUsersAPI = async () => {
+  return await commonAPI("get", `${baseURL}/admin/users`, {}, "");
+};
+
+export const getAllOrdersAPI = async () => {
+  return await commonAPI("get", `${baseURL}/admin/orders`, {}, "");
+};
+
+// export const getAllUsersAPI = () => {
+//   const token = localStorage.getItem("authToken");
+//   return axios.get(`${baseURL}/users`, {
+//     headers: { Authorization: `${token}` },
+//   });
+// };
+

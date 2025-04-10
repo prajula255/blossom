@@ -5,6 +5,8 @@ import FooterEg from "../../components/footer";
 import {
   addFlowerAPI,
   deleteFlowerAPI,
+  getAllOrdersAPI,
+  getAllUsersAPI,
 } from "../../../api_services/allAPIs/adminAPI";
 import axios from "axios";
 import { baseURL } from "../../../api_services/baseURL";
@@ -36,6 +38,37 @@ function AdminPage() {
 
     return () => clearInterval(interval);
   }, []);
+
+  const [users, setUsers] = useState([]);
+  const [orders, setOrders] = useState([]);
+
+  useEffect(()=>{
+    console.log("\n users",users);
+    console.log("\n orders",orders);
+    
+    
+  },[users,orders])
+
+  useEffect(() => {
+    const fetchAllUsers = async () => {
+      try {
+        const response = await getAllUsersAPI();
+        setUsers(response.data.users);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    const fetchAllOrders = async () => {
+      try {
+        const response = await getAllOrdersAPI();
+        setOrders(response.data.orders);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchAllUsers();
+    fetchAllOrders();
+  });
 
   const handleChange = (e) => {
     setNewFlower({ ...newFlower, [e.target.name]: e.target.value });
@@ -266,6 +299,16 @@ function AdminPage() {
           ) : (
             <p style={styles.emptyMessage}>No flowers added yet.</p>
           )}
+        </div>
+        <div>
+          {
+            users.map((item,index)=>(
+              <div>
+                <div>name:{item.name}</div>
+                <div>email:{item.email}</div>
+              </div>
+            ))
+          }
         </div>
       </div>
 
