@@ -7,6 +7,7 @@ import {
   updateCartItemAPI,
 } from "../../../api_services/allAPIs/cartAPI";
 import { baseURL } from "../../../api_services/baseURL";
+import FooterEg from "../../components/footer";
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -225,6 +226,7 @@ const CartPage = () => {
             >
               Proceed to Checkout
             </button>
+            <FooterEg/>
           </div>
         </>
       )}
